@@ -142,6 +142,27 @@ def review_form():
     return render_template('review_form.html')
 
 # -------------------------------------------------------
+# New: /contact – page for customer contact information
+# -------------------------------------------------------
+@api.route('/contact', methods=['GET'])
+def contact():
+    return render_template('contact.html')
+
+# -------------------------------------------------------
+# New: /submit_contact – handles contact form submissions
+# -------------------------------------------------------
+@api.route('/submit_contact', methods=['POST'])
+def submit_contact():
+    # Retrieve form data from the contact page
+    name = request.form.get('name')
+    email = request.form.get('email')
+    message = request.form.get('message')
+    
+    # For now, you can simply return a confirmation message.
+    # In production, you might want to send an email or store the message.
+    return f"Thank you {name}, we have received your message and will contact you shortly."
+
+# -------------------------------------------------------
 # Updated: /submit_review_form – handles expert review requests
 # -------------------------------------------------------
 import json
@@ -255,3 +276,4 @@ def submit_review_form():
         return f"Failed to send confirmation email: {str(e)}", 500
 
     return "Thank you! Your review request has been sent. We will contact you shortly."
+
