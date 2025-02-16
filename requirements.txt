@@ -3,3 +3,4 @@ flask_cors
 gunicorn
 requests
 pdfkit
+python-dotenv
