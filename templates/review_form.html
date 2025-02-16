@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Expert Review</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* Basic styling for the review form */
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    textarea {
+      resize: vertical;
+      height: 100px;
+    }
+    .submit-btn {
+      background: #28a745;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Request Expert Review</h1>
+    <form action="{{ url_for('api.submit_review_form') }}" method="post">
+      <div class="form-group">
+        <label for="first_name">First Name:</label>
+        <input type="text" id="first_name" name="first_name" required>
+      </div>
+      <div class="form-group">
+        <label for="last_name">Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="project_address">Project Address:</label>
+        <input type="text" id="project_address" name="project_address" required>
+      </div>
+      <div class="form-group">
+        <label for="reason">Reason for Load Calculation:</label>
+        <select id="reason" name="reason" required>
+          <option value="">-- Select Reason --</option>
+          <option value="New Secondary Suite">New Secondary Suite</option>
+          <option value="New Laneway House">New Laneway House</option>
+          <option value="New Car Charger">New Car Charger</option>
+          <option value="New Hot Tub or Appliance">New Hot Tub or Appliance</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="comments">Additional Comments:</label>
+        <textarea id="comments" name="comments" placeholder="Enter any additional details..."></textarea>
+      </div>
+      <!-- Hidden fields for calculation data (populate these via JavaScript on the client side after a successful calculation) -->
+      <input type="hidden" id="calcInput" name="calcInput" value=''>
+      <input type="hidden" id="calcResult" name="calcResult" value=''>
+      <button type="submit" class="submit-btn">Submit Review Request</button>
+    </form>
+  </div>
+  
+  <!-- Script to populate hidden fields from client-side storage (or other source) -->
+  <script>
+    // Example: retrieve calculation data from localStorage
+    // Make sure your main page stores the calculation data in localStorage as JSON strings.
+    document.getElementById('calcInput').value = localStorage.getItem('lastCalculationInput') || '';
+    document.getElementById('calcResult').value = localStorage.getItem('lastCalculationResult') || '';
+  </script>
+</body>
+</html>

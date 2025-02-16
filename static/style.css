@@ -1,0 +1,287 @@
+/* style.css */
+
+/* Global Defaults */
+body {
+  margin: 0;
+  padding: 0;
+  background: #f0f2f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+/* Container */
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px 40px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* Headings */
+h1 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-weight: 400;
+}
+
+h2 {
+  margin-top: 30px;
+  font-size: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 5px;
+}
+
+/* Form Groups */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+/* Inputs & Selects */
+input[type="number"], select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input[type="number"]:focus,
+select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* Checkboxes & Radio styling */
+.checkbox-group {
+  margin-top: 5px;
+}
+
+.checkbox-group label {
+  cursor: pointer;
+}
+
+.checkbox-group.horizontal-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+/* Hidden utility */
+.hidden {
+  display: none;
+}
+
+/* Additional Loads Table */
+.additional-loads-container {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background: #fafafa;
+  overflow-x: auto;
+  margin-top: 10px;
+}
+
+.additional-loads-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.additional-loads-container th,
+.additional-loads-container td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Buttons */
+.submit-btn,
+.addRowBtn,
+.remove-row-btn,
+.post-btn {
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 10px 15px;
+}
+
+.submit-btn {
+  width: 100%;
+  background: #007bff;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  background: #0056b3;
+}
+
+.addRowBtn {
+  background: #28a745;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.addRowBtn:hover {
+  background: #218838;
+}
+
+.remove-row-btn {
+  background: #dc3545;
+  color: #fff;
+}
+
+.remove-row-btn:hover {
+  background: #c82333;
+}
+
+/* Result Box */
+.result-box {
+  margin-top: 30px;
+  font-size: 16px;
+  background: #e2e3e5;
+  padding: 20px;
+  border-radius: 5px;
+  display: none; /* hidden by default, shown after calc */
+  text-align: left;
+}
+
+/* Post Calculation Buttons (Email + City Form) */
+.post-calc-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.post-btn {
+  background: #17a2b8;
+  color: #fff;
+}
+
+.post-btn:hover {
+  background: #138496;
+}
+
+.email-btn {
+  background: #28a745;
+}
+
+.email-btn:hover {
+  background: #218838;
+}
+
+.city-btn {
+  background: #ffc107;
+  color: #000;
+}
+
+.city-btn:hover {
+  background: #e0a800;
+}
+
+/* Unit Sections */
+.unit-section {
+  margin-top: 20px;
+}
+
+/* Media Queries: Mobile Responsiveness */
+@media (max-width: 600px) {
+  .container {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 90%;
+  }
+
+  h1 {
+    font-size: 18px;
+  }
+
+  h2 {
+    font-size: 16px;
+    padding-bottom: 3px;
+  }
+
+  .form-group label {
+    font-size: 14px;
+  }
+
+  input[type="number"], select {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .submit-btn {
+    padding: 12px;
+    font-size: 14px;
+  }
+
+  .additional-loads-container th,
+  .additional-loads-container td {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .checkbox-group.horizontal-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .addRowBtn, .remove-row-btn, .post-btn {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .result-box {
+    font-size: 14px;
+    padding: 15px;
+  }
+}
+
+/* Review Button Styling */
+/* Default styling for the review button (dull color when disabled) */
+.post-btn.review-btn {
+  background-color: #6c757d;  /* Dull grey color */
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  cursor: not-allowed;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Styling for the review button when enabled */
+.post-btn.review-btn.enabled {
+  background-color: #28a745;  /* Bright green color when enabled */
+  cursor: pointer;
+}
+
+/* Glow animation for the review button */
+@keyframes glowing {
+  0% {
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(40, 167, 69, 1);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+  }
+}
+
+/* Apply the glow animation when the button is enabled */
+.post-btn.review-btn.glow {
+  animation: glowing 1.5s infinite;
+}

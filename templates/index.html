@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Load Calculation App</title>
+  <!-- Link to your CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Electrical Load Calculator</h1>
+    <h2>
+      For a Sub-division of a Single Family Dwelling with Secondary Suite or
+      Single Family Dwelling with a Laneway/Backyard Suite.
+    </h2>
+    
+    <!-- BEGIN: Calculation Form -->
+    <form id="loadCalcForm">
+      <!-- Conductor Type -->
+      <div class="form-group">
+        <label for="conductorType">Conductor Type:</label>
+        <select id="conductorType" name="conductorType">
+          <option value="Copper">Copper</option>
+          <option value="Aluminum">Aluminum</option>
+        </select>
+      </div>
+
+      <!-- Unit Selection -->
+      <div class="form-group">
+        <label>Select Unit Types:</label>
+        <div class="checkbox-group horizontal-group">
+          <!-- SFD default checked/disabled -->
+          <label>
+            <input
+              type="checkbox"
+              class="unit-toggle"
+              value="SFD"
+              checked
+              disabled
+            >
+            SFD (Single Family Dwelling)
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              class="unit-toggle"
+              value="SS"
+            >
+            SS (Secondary Suite)
+          </label>
+          <label>
+            <input
+              type="checkbox"
+              class="unit-toggle"
+              value="LWH"
+            >
+            LWH (Laneway/Backyard Suite)
+          </label>
+        </div>
+        <small>
+          Select which units are present. The form fields for each chosen
+          unit will appear below.
+        </small>
+      </div>
+
+      <!-- All Unit Sections -->
+      <div id="unitsContainer">
+
+        <!-- SFD Unit Section -->
+        <div class="unit-section" data-unit="SFD">
+          <h2>SFD (Single Family Dwelling)</h2>
+
+          <div class="form-group">
+            <label>Living Area (m²):</label>
+            <input
+              type="number"
+              name="livingArea_SFD"
+              min="0"
+              step="0.1"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Electric Space Heating:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="electricHeatingLoadGroup_SFD"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="electricHeatingLoadGroup_SFD">
+            <label>Electric Space Heating Load (Watts):</label>
+            <input
+              type="number"
+              name="electricHeatingWatts_SFD"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <!-- Heating/Cooling Interlocked Checkbox -->
+          <div class="form-group">
+            <label>Heating/Cooling Interlocked:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="heating-cooling-interlock"
+                  data-unit="SFD"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Air Conditioning (AC):</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="acLoadGroup_SFD"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="acLoadGroup_SFD">
+            <label>AC Load (Watts):</label>
+            <input
+              type="number"
+              name="acWatts_SFD"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Electric Range:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="rangeLoadGroup_SFD"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="rangeLoadGroup_SFD">
+            <label>Range Total Watts (no decimals):</label>
+            <input
+              type="number"
+              name="rangeWatts_SFD"
+              min="0"
+              step="1"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Electric Tankless Water Heater:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="tanklessLoadGroup_SFD"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="tanklessLoadGroup_SFD">
+            <label>Electric Tankless Water Heater Load (Watts):</label>
+            <input
+              type="number"
+              name="tanklessWatts_SFD"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Steamer:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="steamerLoadGroup_SFD"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="steamerLoadGroup_SFD">
+            <label>Steamer Load (Watts):</label>
+            <input
+              type="number"
+              name="steamersWatts_SFD"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Swimming Pools / Hot Tubs / Spas:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="poolLoadGroup_SFD"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="poolLoadGroup_SFD">
+            <label>Swimming Pools / Hot Tubs / Spas Load (Watts):</label>
+            <input
+              type="number"
+              name="poolHotTubWatts_SFD"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>EV Charging:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="evLoadGroup_SFD"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="evLoadGroup_SFD">
+            <label>EV Charging (Watts):</label>
+            <input
+              type="number"
+              name="evChargingWatts_SFD"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Additional Loads (over 1500W)</label>
+            <small>Do not include heating or cooling devices here.</small>
+            <div
+              class="additional-loads-container"
+              data-unit="SFD"
+            >
+              <table class="additionalLoadsTable">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Wattage (W)</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Rows added dynamically -->
+                </tbody>
+              </table>
+              <button type="button" class="addRowBtn">+ Add Load</button>
+            </div>
+          </div>
+        </div>
+        <!-- END: SFD Unit -->
+
+        <!-- SS Unit Section -->
+        <div class="unit-section hidden" data-unit="SS">
+          <h2>SS (Secondary Suite)</h2>
+          <!-- Same fields as SFD, but with _SS suffix -->
+          <div class="form-group">
+            <label>Living Area (m²):</label>
+            <input
+              type="number"
+              name="livingArea_SS"
+              min="0"
+              step="0.1"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Electric Space Heating:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="electricHeatingLoadGroup_SS"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="electricHeatingLoadGroup_SS">
+            <label>Electric Space Heating Load (Watts):</label>
+            <input
+              type="number"
+              name="electricHeatingWatts_SS"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <!-- Heating/Cooling Interlocked -->
+          <div class="form-group">
+            <label>Heating/Cooling Interlocked:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="heating-cooling-interlock"
+                  data-unit="SS"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Air Conditioning (AC):</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="acLoadGroup_SS"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="acLoadGroup_SS">
+            <label>AC Load (Watts):</label>
+            <input
+              type="number"
+              name="acWatts_SS"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Electric Range:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="rangeLoadGroup_SS"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="rangeLoadGroup_SS">
+            <label>Range Total Watts (no decimals):</label>
+            <input
+              type="number"
+              name="rangeWatts_SS"
+              min="0"
+              step="1"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Electric Tankless Water Heater:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="tanklessLoadGroup_SS"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="tanklessLoadGroup_SS">
+            <label>Electric Tankless Water Heater Load (Watts):</label>
+            <input
+              type="number"
+              name="tanklessWatts_SS"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Steamer:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="steamerLoadGroup_SS"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="steamerLoadGroup_SS">
+            <label>Steamer Load (Watts):</label>
+            <input
+              type="number"
+              name="steamersWatts_SS"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Swimming Pools / Hot Tubs / Spas:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="poolLoadGroup_SS"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="poolLoadGroup_SS">
+            <label>Swimming Pools / Hot Tubs / Spas Load (Watts):</label>
+            <input
+              type="number"
+              name="poolHotTubWatts_SS"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>EV Charging:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="evLoadGroup_SS"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="evLoadGroup_SS">
+            <label>EV Charging (Watts):</label>
+            <input
+              type="number"
+              name="evChargingWatts_SS"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Additional Loads (over 1500W)</label>
+            <small>Do not include heating/cooling here.</small>
+            <div
+              class="additional-loads-container"
+              data-unit="SS"
+            >
+              <table class="additionalLoadsTable">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Wattage (W)</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <button type="button" class="addRowBtn">+ Add Load</button>
+            </div>
+          </div>
+        </div>
+        <!-- END: SS Unit -->
+
+        <!-- LWH Unit Section -->
+        <div class="unit-section hidden" data-unit="LWH">
+          <h2>LWH (Laneway/Backyard Suite)</h2>
+          <!-- Similar to SFD, but with _LWH suffix -->
+          <div class="form-group">
+            <label>Living Area (m²):</label>
+            <input
+              type="number"
+              name="livingArea_LWH"
+              min="0"
+              step="0.1"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Electric Space Heating:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="electricHeatingLoadGroup_LWH"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="electricHeatingLoadGroup_LWH">
+            <label>Electric Space Heating Load (Watts):</label>
+            <input
+              type="number"
+              name="electricHeatingWatts_LWH"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Heating/Cooling Interlocked:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="heating-cooling-interlock"
+                  data-unit="LWH"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Air Conditioning (AC):</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="acLoadGroup_LWH"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="acLoadGroup_LWH">
+            <label>AC Load (Watts):</label>
+            <input
+              type="number"
+              name="acWatts_LWH"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Electric Range:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="rangeLoadGroup_LWH"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="rangeLoadGroup_LWH">
+            <label>Range Total Watts (no decimals):</label>
+            <input
+              type="number"
+              name="rangeWatts_LWH"
+              min="0"
+              step="1"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Electric Tankless Water Heater:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="tanklessLoadGroup_LWH"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="tanklessLoadGroup_LWH">
+            <label>Electric Tankless Water Heater Load (Watts):</label>
+            <input
+              type="number"
+              name="tanklessWatts_LWH"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Steamer:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="steamerLoadGroup_LWH"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="steamerLoadGroup_LWH">
+            <label>Steamer Load (Watts):</label>
+            <input
+              type="number"
+              name="steamersWatts_LWH"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Swimming Pools / Hot Tubs / Spas:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="poolLoadGroup_LWH"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="poolLoadGroup_LWH">
+            <label>Swimming Pools / Hot Tubs / Spas Load (Watts):</label>
+            <input
+              type="number"
+              name="poolHotTubWatts_LWH"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>EV Charging:</label>
+            <div class="checkbox-group">
+              <label>
+                <input
+                  type="checkbox"
+                  class="toggle-checkbox"
+                  data-target="evLoadGroup_LWH"
+                >
+                Yes
+              </label>
+            </div>
+          </div>
+          <div class="form-group hidden" id="evLoadGroup_LWH">
+            <label>EV Charging (Watts):</label>
+            <input
+              type="number"
+              name="evChargingWatts_LWH"
+              min="0"
+              step="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Additional Loads (over 1500W)</label>
+            <small>Do not include heating/cooling here.</small>
+            <div
+              class="additional-loads-container"
+              data-unit="LWH"
+            >
+              <table class="additionalLoadsTable">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Wattage (W)</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+              <button type="button" class="addRowBtn">+ Add Load</button>
+            </div>
+          </div>
+        </div>
+        <!-- END: LWH Unit -->
+
+      </div>
+      <!-- END: Unit Container -->
+
+      <!-- Submit Button for Calculation -->
+      <button type="submit" class="submit-btn">Calculate Load</button>
+    </form>
+    <!-- END: Calculation Form -->
+
+    <!-- Calculation Result Box -->
+    <div id="result" class="result-box"></div>
+
+     <!-- Post-Calculation Buttons -->
+     <div class="post-calc-buttons" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px;">
+      <button type="button" id="emailButton" class="post-btn email-btn" onclick="sendCalculationEmail()">
+        Email Calculation
+      </button>
+      <button type="button" id="contactButton" class="post-btn city-btn" onclick="goToContact()">
+        Need Help? Contact Us
+      </button>
+      <button type="button" id="reviewButton" class="post-btn review-btn" disabled onclick="goToReviewForm()">
+        Get Expert Review
+      </button>      
+    </div>
+
+    <!-- Footer with contact info -->
+    <footer style="text-align:center; margin-top:40px; font-size:14px; color:#555;">
+      <p>
+        Real World Electric | Phone: 403-808-2811 | Whatsapp: 403-808-2811 | 
+        Telegram: <a href="https://t.me/rwemec" style="color:#555;">@rwemec</a> | 
+        <a href="https://facebook.com/RWEINC" style="color:#555;">Facebook</a> | 
+        Email: <a href="mailto:Bart@Realworldelectric.com" style="color:#555;">Bart@Realworldelectric.com</a>
+      </p>
+    </footer>
+
+  <!-- Link to your main script -->
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

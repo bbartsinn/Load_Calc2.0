@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Real World Electric</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    /* Basic styling for the contact form */
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h1 { text-align: center; }
+    .form-group { margin-bottom: 15px; }
+    label { font-weight: bold; display: block; margin-bottom: 5px; }
+    input[type="text"], input[type="email"], textarea {
+      width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px;
+    }
+    textarea { resize: vertical; height: 100px; }
+    .submit-btn {
+      background: #007bff; color: #fff; border: none;
+      padding: 10px 20px; border-radius: 5px; cursor: pointer; font-size: 16px;
+    }
+    .contact-info {
+      margin-top: 20px; font-size: 14px; color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Contact Real World Electric</h1>
+    <form action="{{ url_for('api.submit_contact') }}" method="post">
+      <div class="form-group">
+        <label for="name">Your Name:</label>
+        <input type="text" name="name" id="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Your Email:</label>
+        <input type="email" name="email" id="email" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Your Message:</label>
+        <textarea name="message" id="message" placeholder="How can we help you?" required></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Send Message</button>
+    </form>
+    <div class="contact-info">
+      <p>Or call us directly: 403-808-2811</p>
+      <p>Whatsapp: 403-808-2811</p>
+      <p>Telegram: <a href="https://t.me/rwemec">@rwemec</a></p>
+      <p>Facebook: <a href="https://facebook.com/RWEINC">facebook.com/RWEINC</a></p>
+      <p>Email: <a href="mailto:Bart@Realworldelectric.com">Bart@Realworldelectric.com</a></p>
+    </div>
+  </div>
+</body>
+</html>
