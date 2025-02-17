@@ -2,14 +2,14 @@
 from flask import Blueprint, request, jsonify, render_template
 import requests
 import os
-import pdfkit  # NEW: used to generate PDF attachments
+import pdfkit  # Used to generate PDF attachments
+import json
 
 from services.calculation_engine import (
     calculate_unit_loads,
     combined_load,
     calculate_service_parameters
 )
-# Updated email template imports – we now have two new helper functions:
 from services.email_template import build_branded_email, build_pdf_content
 
 api = Blueprint('api', __name__)
@@ -74,11 +74,8 @@ def send_calculation_email():
       "inputData": { ... },
       "resultData": { ... }
     }
-    We now:
-      • Merge the input and result data into one dictionary.
-      • Generate a PDF from these details (using pdfkit) with local file access enabled.
-      • Build a branded email (with your Real World Electric colors, thank-you text, and an action button)
-      • Send the email via Mailgun with the PDF attached.
+    Merges input and result data, generates a PDF from the calculation details,
+    builds a branded email, and sends it via Mailgun.
     """
     data = request.get_json() or {}
     user_email = data.get('userEmail')
@@ -94,7 +91,7 @@ def send_calculation_email():
         "result": result_data
     }
 
-    # Generate the PDF attachment from calculation data with local file access enabled
+    # Generate PDF attachment
     pdf_html = build_pdf_content(calculation_data)
     try:
         options = {"enable-local-file-access": ""}
@@ -105,13 +102,11 @@ def send_calculation_email():
     # Build the branded email content
     html_content = build_branded_email()
 
+    # Get Mailgun settings from environment variables
     MAILGUN_DOMAIN = os.getenv('MAILGUN_DOMAIN')
     MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
     if not MAILGUN_DOMAIN or not MAILGUN_API_KEY:
-        return jsonify({
-            "success": False,
-            "message": "Mailgun environment variables not set."
-        }), 500
+        return jsonify({"success": False, "message": "Mailgun environment variables not set."}), 500
 
     mailgun_url = f"https://api.mailgun.net/v3/{MAILGUN_DOMAIN}/messages"
     from_address = f"Real World Electric <mailgun@{MAILGUN_DOMAIN}>"
@@ -135,7 +130,7 @@ def send_calculation_email():
     return jsonify({"success": True, "message": "Email sent successfully"}), 200
 
 # -------------------------------------------------------
-# New: /review_form – page for the customer to request a review & signature
+# New: /review_form – page for requesting a review & signature
 # -------------------------------------------------------
 @api.route('/review_form', methods=['GET'])
 def review_form():
@@ -153,46 +148,32 @@ def contact():
 # -------------------------------------------------------
 @api.route('/submit_contact', methods=['POST'])
 def submit_contact():
-    # Retrieve form data from the contact page
     name = request.form.get('name')
     email = request.form.get('email')
     message = request.form.get('message')
     
-    # For now, you can simply return a confirmation message.
-    # In production, you might want to send an email or store the message.
+    # For now, simply return a confirmation message.
+    # In production, you could send an email using Mailgun (similar to below).
     return f"Thank you {name}, we have received your message and will contact you shortly."
 
 # -------------------------------------------------------
 # Updated: /submit_review_form – handles expert review requests
 # -------------------------------------------------------
-import json
-
 @api.route('/submit_review_form', methods=['POST'])
 def submit_review_form():
-    """
-    Handles the submission of the expert review request form.
-    Expects the following form fields:
-      - first_name, last_name, phone, email (user's email), project_address, reason, comments
-      - Hidden fields: calcInput, calcResult (JSON strings of calculation data)
-    Upon submission, the system will:
-      1. Email the review request (with the attached calculation PDF) to Bart@Realworldelectric.com.
-      2. Email the user a confirmation message (with the attached PDF) indicating that their review request has been received.
-    """
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     phone = request.form.get('phone')
-    user_email = request.form.get('email')  # User's email for confirmation
+    user_email = request.form.get('email')
     project_address = request.form.get('project_address')
     reason = request.form.get('reason')
     comments = request.form.get('comments')
-    calc_input = request.form.get('calcInput')  # Hidden field with calculation input data (JSON string)
-    calc_result = request.form.get('calcResult')  # Hidden field with calculation result data (JSON string)
+    calc_input = request.form.get('calcInput')
+    calc_result = request.form.get('calcResult')
 
-    # Ensure all required fields are provided
     if not all([first_name, last_name, phone, user_email, project_address, reason]):
         return "Please fill out all required fields.", 400
 
-    # Build the email content for you (the master electrician)
     review_content = f"""
     <h2>Load Calculation Review Request</h2>
     <p><strong>Name:</strong> {first_name} {last_name}</p>
@@ -204,7 +185,6 @@ def submit_review_form():
     """
     
     pdf_attachment = None
-    # If calculation data is available, try to parse it and generate a PDF
     if calc_input and calc_result:
         try:
             calc_input_data = json.loads(calc_input)
@@ -213,7 +193,6 @@ def submit_review_form():
             pdf_html = build_pdf_content(calculation_data)
             options = {"enable-local-file-access": ""}
             pdf_attachment = pdfkit.from_string(pdf_html, False, options=options)
-            # Include a note in the email that the PDF is attached
             review_content += "<p>The attached PDF contains the full calculation details.</p>"
         except Exception as e:
             review_content += f"<p>Warning: Calculation data could not be processed. Error: {str(e)}</p>"
@@ -227,7 +206,6 @@ def submit_review_form():
     from_address = f"Real World Electric <mailgun@{MAILGUN_DOMAIN}>"
     master_email = "Bart@Realworldelectric.com"
 
-    # Send email to you with the review request and attached PDF if available
     try:
         files = []
         if pdf_attachment:
@@ -247,7 +225,6 @@ def submit_review_form():
     except requests.exceptions.RequestException as e:
         return f"Failed to send review request: {str(e)}", 500
 
-    # Build the confirmation email content for the user
     confirmation_content = f"""
     <h2>Thank You!</h2>
     <p>Your load calculation review request has been received.</p>
@@ -255,7 +232,6 @@ def submit_review_form():
     <p>Thank you for choosing Real World Electric.</p>
     """
     
-    # Send confirmation email to the user (with PDF attached if available)
     try:
         files = []
         if pdf_attachment:
@@ -276,4 +252,3 @@ def submit_review_form():
         return f"Failed to send confirmation email: {str(e)}", 500
 
     return "Thank you! Your review request has been sent. We will contact you shortly."
-
