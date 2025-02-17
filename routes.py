@@ -85,13 +85,11 @@ def send_calculation_email():
     if not user_email or not input_data or not result_data:
         return jsonify({"success": False, "message": "Missing required data."}), 400
 
-    # Combine the calculation data
     calculation_data = {
         "input": input_data,
         "result": result_data
     }
 
-    # Generate PDF attachment
     pdf_html = build_pdf_content(calculation_data)
     try:
         options = {"enable-local-file-access": ""}
@@ -99,10 +97,8 @@ def send_calculation_email():
     except Exception as e:
         return jsonify({"success": False, "message": f"PDF generation failed: {str(e)}"}), 500
 
-    # Build the branded email content
     html_content = build_branded_email()
 
-    # Get Mailgun settings from environment variables
     MAILGUN_DOMAIN = os.getenv('MAILGUN_DOMAIN')
     MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
     if not MAILGUN_DOMAIN or not MAILGUN_API_KEY:
@@ -144,17 +140,51 @@ def contact():
     return render_template('contact.html')
 
 # -------------------------------------------------------
-# New: /submit_contact – handles contact form submissions
+# Updated: /submit_contact – handles contact form submissions
 # -------------------------------------------------------
 @api.route('/submit_contact', methods=['POST'])
 def submit_contact():
+    # Retrieve form data from the landing page contact form
     name = request.form.get('name')
     email = request.form.get('email')
     message = request.form.get('message')
     
-    # For now, simply return a confirmation message.
-    # In production, you could send an email using Mailgun (similar to below).
-    return f"Thank you {name}, we have received your message and will contact you shortly."
+    if not name or not email or not message:
+        return "Please fill out all required fields.", 400
+
+    # Compose email content
+    email_body = f"New Contact Form Submission\n\nName: {name}\nEmail: {email}\nMessage: {message}"
+    
+    # Get Mailgun settings from environment variables
+    MAILGUN_DOMAIN = os.getenv('MAILGUN_DOMAIN')
+    MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
+    if not MAILGUN_DOMAIN or not MAILGUN_API_KEY:
+        return "Mailgun configuration error.", 500
+
+    mailgun_url = f"https://api.mailgun.net/v3/{MAILGUN_DOMAIN}/messages"
+    from_address = f"Real World Electric <mailgun@{MAILGUN_DOMAIN}>"
+    # Set this to the email where you want to receive contact form submissions (e.g., your support email)
+    recipient = "Bart@Realworldelectric.com"
+
+    post_data = {
+        "from": from_address,
+        "to": recipient,
+        "subject": "New Contact Form Submission",
+        "text": email_body
+    }
+
+    try:
+        response = requests.post(
+            mailgun_url,
+            auth=("api", MAILGUN_API_KEY),
+            data=post_data
+        )
+        response.raise_for_status()
+    except requests.exceptions.RequestException as e:
+        return f"Error sending email: {str(e)}", 500
+
+    # Return exactly "success" so that AJAX on the landing page can detect it
+    return "success"
 
 # -------------------------------------------------------
 # Updated: /submit_review_form – handles expert review requests
