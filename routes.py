@@ -15,7 +15,7 @@ from services.email_template import build_branded_email, build_pdf_content
 api = Blueprint('api', __name__)
 
 # -------------------------------------------------------
-# /calculate (UNCHANGED)
+# /calculate - Perform load calculation
 # -------------------------------------------------------
 @api.route('/calculate', methods=['POST'])
 def calculate():
@@ -63,19 +63,17 @@ def calculate():
         return jsonify({"error": str(e)}), 500
 
 # -------------------------------------------------------
-# Updated: /send_calculation_email
+# /send_calculation_email - Sends calculation email with PDF attachment via Mailgun
 # -------------------------------------------------------
 @api.route('/send_calculation_email', methods=['POST'])
 def send_calculation_email():
     """
-    Expects JSON with:
+    Expects JSON:
     {
       "userEmail": "someone@example.com",
       "inputData": { ... },
       "resultData": { ... }
     }
-    Merges input and result data, generates a PDF from the calculation details,
-    builds a branded email, and sends it via Mailgun.
     """
     data = request.get_json() or {}
     user_email = data.get('userEmail')
@@ -126,25 +124,24 @@ def send_calculation_email():
     return jsonify({"success": True, "message": "Email sent successfully"}), 200
 
 # -------------------------------------------------------
-# New: /review_form – page for requesting a review & signature
+# /review_form - Renders review request form page
 # -------------------------------------------------------
 @api.route('/review_form', methods=['GET'])
 def review_form():
     return render_template('review_form.html')
 
 # -------------------------------------------------------
-# New: /contact – page for customer contact information
+# /contact - Renders contact page
 # -------------------------------------------------------
 @api.route('/contact', methods=['GET'])
 def contact():
     return render_template('contact.html')
 
 # -------------------------------------------------------
-# Updated: /submit_contact – handles contact form submissions
+# /submit_contact - Handles contact form submissions and sends email via Mailgun
 # -------------------------------------------------------
 @api.route('/submit_contact', methods=['POST'])
 def submit_contact():
-    # Retrieve form data from the landing page contact form
     name = request.form.get('name')
     email = request.form.get('email')
     message = request.form.get('message')
@@ -152,10 +149,8 @@ def submit_contact():
     if not name or not email or not message:
         return "Please fill out all required fields.", 400
 
-    # Compose email content
     email_body = f"New Contact Form Submission\n\nName: {name}\nEmail: {email}\nMessage: {message}"
     
-    # Get Mailgun settings from environment variables
     MAILGUN_DOMAIN = os.getenv('MAILGUN_DOMAIN')
     MAILGUN_API_KEY = os.getenv('MAILGUN_API_KEY')
     if not MAILGUN_DOMAIN or not MAILGUN_API_KEY:
@@ -163,7 +158,7 @@ def submit_contact():
 
     mailgun_url = f"https://api.mailgun.net/v3/{MAILGUN_DOMAIN}/messages"
     from_address = f"Real World Electric <mailgun@{MAILGUN_DOMAIN}>"
-    # Set this to the email where you want to receive contact form submissions (e.g., your support email)
+    # Replace with your actual recipient email
     recipient = "Bart@Realworldelectric.com"
 
     post_data = {
@@ -183,11 +178,11 @@ def submit_contact():
     except requests.exceptions.RequestException as e:
         return f"Error sending email: {str(e)}", 500
 
-    # Return exactly "success" so that AJAX on the landing page can detect it
+    # Return "success" so the AJAX script can detect it
     return "success"
 
 # -------------------------------------------------------
-# Updated: /submit_review_form – handles expert review requests
+# /submit_review_form - Handles expert review requests
 # -------------------------------------------------------
 @api.route('/submit_review_form', methods=['POST'])
 def submit_review_form():
