@@ -1,3 +1,53 @@
+from html import escape
+
+
+def safe(value):
+    return escape(str(value if value is not None else ""))
+
+
+def fmt_watts(value):
+    if value is None:
+        return "-"
+    return f"{round(float(value)):,} W"
+
+
+def fmt_percent(value):
+    if value is None:
+        return "Rule"
+    return f"{float(value):.0f}%"
+
+
+def build_breakdown_table(rows):
+    if not rows:
+        return ""
+    html = """
+      <table>
+        <thead>
+          <tr>
+            <th>Calculation</th>
+            <th>Nameplate</th>
+            <th>Demand</th>
+            <th>Included</th>
+          </tr>
+        </thead>
+        <tbody>
+    """
+    for row in rows:
+        rule = row.get("rule", "")
+        note = row.get("note", "")
+        detail = f"{rule} - {note}" if note else rule
+        html += (
+            "<tr>"
+            f"<td><strong>{safe(row.get('label', ''))}</strong><br><span style='color:#555;'>{safe(detail)}</span></td>"
+            f"<td>{safe(fmt_watts(row.get('nameplate_watts')))}</td>"
+            f"<td>{safe(fmt_percent(row.get('demand_percent')))}</td>"
+            f"<td>{safe(fmt_watts(row.get('demand_watts')))}</td>"
+            "</tr>"
+        )
+    html += "</tbody></table>"
+    return html
+
+
 def build_branded_email():
     """
     Returns the HTML content for the branded email sent to the user.
@@ -23,7 +73,7 @@ def build_branded_email():
     # Action button for expert review – styled responsively
     review_button = (
         '<p style="text-align: center; margin: 20px 0;">'
-        '<a href="https://yourdomain.com/review_form" '
+        '<a href="/api/review_form" '
         'style="display:block; max-width:300px; width:90%; margin:0 auto; '
         'background:' + text_color + '; color:' + brand_color + '; padding: 12px 0; '
         'text-align:center; text-decoration:none; border-radius:5px; font-weight:bold; font-size:16px;">'
@@ -35,7 +85,7 @@ def build_branded_email():
     # Action button for contacting us – styled similarly
     contact_button = (
         '<p style="text-align: center; margin: 20px 0;">'
-        '<a href="https://yourdomain.com/contact" '
+        '<a href="/api/contact" '
         'style="display:block; max-width:300px; width:90%; margin:0 auto; '
         'background:' + text_color + '; color:' + brand_color + '; padding: 12px 0; '
         'text-align:center; text-decoration:none; border-radius:5px; font-weight:bold; font-size:16px;">'
@@ -48,14 +98,14 @@ def build_branded_email():
     <html>
       <head>
         <meta charset="UTF-8">
-        <title>Thank You from Real World Electric</title>
+        <title>City of Calgary Digital Load Calculator</title>
       </head>
       <body style="margin: 0; padding: 20px; font-family: Arial, sans-serif; background: {background_color}; color: {text_color};">
         <div style="background: {brand_color}; padding: 20px; text-align: center;">
           <h1 style="margin: 0;">Real World Electric Digital Tools</h1>
         </div>
         <div style="padding: 20px;">
-          <h2>Thank You for Using Our Digital Tools!</h2>
+          <h2>Thank You for Using the City of Calgary Digital Load Calculator</h2>
           <p>We appreciate you choosing Real World Electric for your project.</p>
           <p>Your detailed load calculation is attached as a PDF for your records.</p>
           <p>If you would like your load calculation reviewed and signed by a master electrician, please click the button below.</p>
@@ -120,7 +170,7 @@ def build_pdf_content(calculation_data):
     html = """<html>
       <head>
         <meta charset="UTF-8">
-        <title>Load Calculation Details</title>
+        <title>City of Calgary Digital Load Calculator</title>
         <style>
           body {
             font-family: Arial, sans-serif;
@@ -173,9 +223,7 @@ def build_pdf_content(calculation_data):
       </head>
       <body>
         <header>
-          <!-- Logo in the top left -->
-          <img src="file:///C:/Users/User/Copies/ELC_Email/Images/logo.png" alt="RWE Logo">
-          <h1>Load Calculation Details</h1>
+          <h1>City of Calgary Digital Load Calculator</h1>
         </header>
         <h2>Input Data</h2>
     """
@@ -183,16 +231,16 @@ def build_pdf_content(calculation_data):
     # --- Input Data Section ---
     input_data = calculation_data.get("input", {})
     conductor_type = input_data.get("conductor_type", "N/A")
-    html += f"<p style='text-align: center;'><strong>Conductor Type:</strong> {conductor_type}</p>"
+    html += f"<p style='text-align: center;'><strong>Conductor Type:</strong> {safe(conductor_type)}</p>"
     
     units_input = input_data.get("units", [])
     if units_input:
         for unit in units_input:
             unit_type = unit.get("unit_type", "Unit")
-            html += f"<h3>Input Data - {unit_type}</h3>"
+            html += f"<h3>Input Data - {safe(unit_type)}</h3>"
             html += "<table><tbody>"
             for key, value in unit.items():
-                html += f"<tr><th>{key}</th><td>{value}</td></tr>"
+                html += f"<tr><th>{safe(key)}</th><td>{safe(value)}</td></tr>"
             html += "</tbody></table>"
     else:
         html += "<p style='text-align: center;'>No unit input data available.</p>"
@@ -205,11 +253,15 @@ def build_pdf_content(calculation_data):
     if units_result:
         for unit in units_result:
             unit_type = unit.get("unit_type", "Unit")
-            html += f"<h3>Results - {unit_type}</h3>"
+            html += f"<h3>Results - {safe(unit_type)}</h3>"
             html += "<table><tbody>"
             for key, value in unit.items():
-                html += f"<tr><th>{key}</th><td>{value}</td></tr>"
+                if key == "breakdown":
+                    continue
+                html += f"<tr><th>{safe(key)}</th><td>{safe(value)}</td></tr>"
             html += "</tbody></table>"
+            html += f"<h3>Calculation Breakdown - {safe(unit_type)}</h3>"
+            html += build_breakdown_table(unit.get("breakdown", []))
     else:
         html += "<p style='text-align: center;'>No unit calculation results available.</p>"
 
@@ -221,8 +273,11 @@ def build_pdf_content(calculation_data):
     html += "<table><tbody>"
     for key in overall_keys:
         if key in result_data:
-            html += f"<tr><th>{key}</th><td>{result_data[key]}</td></tr>"
+            html += f"<tr><th>{safe(key)}</th><td>{safe(result_data[key])}</td></tr>"
     html += "</tbody></table>"
+
+    html += "<h2>Service Demand Summary</h2>"
+    html += build_breakdown_table(result_data.get("Service Demand Breakdown", []))
 
     # --- Footer Section with Contact Info ---
     html += """

@@ -5,108 +5,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Request Expert Review</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-  <style>
-    /* Basic styling for the review form */
-    .container {
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .form-group {
-      margin-bottom: 15px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"],
-    textarea,
-    select {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-sizing: border-box;
-    }
-    textarea {
-      resize: vertical;
-      height: 100px;
-    }
-    .submit-btn {
-      background: #28a745;
-      color: #fff;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-      width: 100%;
-      margin-top: 10px;
-    }
-  </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Request Expert Review</h1>
-    <form action="{{ url_for('api.submit_review_form') }}" method="post">
-      <div class="form-group">
-        <label for="first_name">First Name:</label>
-        <input type="text" id="first_name" name="first_name" required>
+  <main class="single-page-shell">
+    <section class="page-card">
+      <a class="back-link" href="/">Back to calculator</a>
+      <p class="eyebrow">Real World Electric</p>
+      <h1>Expert Review</h1>
+      <p class="subhead">Send the calculation and project details for a master electrician review.</p>
+
+      <div class="review-summary" id="reviewSummary">
+        <strong>No calculation attached yet.</strong>
+        <span>Run the calculator first if you want the load summary included automatically.</span>
       </div>
-      <div class="form-group">
-        <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" required>
-      </div>
-      <div class="form-group">
-        <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email Address:</label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div class="form-group">
-        <label for="project_address">Project Address:</label>
-        <input type="text" id="project_address" name="project_address" required>
-      </div>
-      <div class="form-group">
-        <label for="reason">Reason for Load Calculation:</label>
-        <select id="reason" name="reason" required>
-          <option value="">-- Select Reason --</option>
-          <option value="New Secondary Suite">New Secondary Suite</option>
-          <option value="New Laneway House">New Laneway House</option>
-          <option value="New Car Charger">New Car Charger</option>
-          <option value="New Hot Tub or Appliance">New Hot Tub or Appliance</option>
-          <option value="Other">Other</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="comments">Additional Comments:</label>
-        <textarea id="comments" name="comments" placeholder="Enter any additional details..."></textarea>
-      </div>
-      <!-- Hidden fields for calculation data (populate these via JavaScript on the client side after a successful calculation) -->
-      <input type="hidden" id="calcInput" name="calcInput" value=''>
-      <input type="hidden" id="calcResult" name="calcResult" value=''>
-      <button type="submit" class="submit-btn">Submit Review Request</button>
-    </form>
-  </div>
-  
-  <!-- Script to populate hidden fields from client-side storage (or other source) -->
+
+      <form class="stacked-form" action="{{ url_for('api.submit_review_form') }}" method="post">
+        <div class="two-column-fields">
+          <label>
+            <span>First name</span>
+            <input type="text" id="first_name" name="first_name" autocomplete="given-name" required>
+          </label>
+          <label>
+            <span>Last name</span>
+            <input type="text" id="last_name" name="last_name" autocomplete="family-name" required>
+          </label>
+        </div>
+
+        <div class="two-column-fields">
+          <label>
+            <span>Phone</span>
+            <input type="tel" id="phone" name="phone" autocomplete="tel" required>
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </label>
+        </div>
+
+        <label>
+          <span>Project address</span>
+          <input type="text" id="project_address" name="project_address" autocomplete="street-address" required>
+        </label>
+
+        <label>
+          <span>Reason</span>
+          <select id="reason" name="reason" required>
+            <option value="">Select reason</option>
+            <option value="New Secondary Suite">New secondary suite</option>
+            <option value="New Laneway House">New laneway house</option>
+            <option value="New Car Charger">New car charger</option>
+            <option value="New Hot Tub or Appliance">New hot tub or appliance</option>
+            <option value="Other">Other</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Notes</span>
+          <textarea id="comments" name="comments" rows="4" placeholder="Anything the reviewer should know?"></textarea>
+        </label>
+
+        <input type="hidden" id="calcInput" name="calcInput" value="">
+        <input type="hidden" id="calcResult" name="calcResult" value="">
+        <button type="submit" class="primary-action">Send for review</button>
+      </form>
+    </section>
+  </main>
+
   <script>
-    // Example: retrieve calculation data from localStorage
-    // Make sure your main page stores the calculation data in localStorage as JSON strings.
-    document.getElementById('calcInput').value = localStorage.getItem('lastCalculationInput') || '';
-    document.getElementById('calcResult').value = localStorage.getItem('lastCalculationResult') || '';
+    const input = localStorage.getItem("lastCalculationInput") || "";
+    const result = localStorage.getItem("lastCalculationResult") || "";
+    document.getElementById("calcInput").value = input;
+    document.getElementById("calcResult").value = result;
+
+    if (result) {
+      try {
+        const parsed = JSON.parse(result);
+        const amps = Number(parsed["Total Amps"] || 0).toFixed(1);
+        const watts = Math.round(Number(parsed["Total Calculated Load (Watts)"] || 0)).toLocaleString();
+        document.getElementById("reviewSummary").innerHTML = `
+          <strong>${amps} A calculated load</strong>
+          <span>${watts} W total, ${parsed["Service Conductor Type and Size"] || "conductor pending"}</span>
+        `;
+      } catch (error) {
+        document.getElementById("reviewSummary").innerHTML = "<strong>Calculation data could not be previewed.</strong><span>It will still be submitted if available.</span>";
+      }
+    }
   </script>
 </body>
 </html>
