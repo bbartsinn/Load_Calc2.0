@@ -71,9 +71,12 @@ def build_branded_email():
     )
 
     # Action button for expert review – styled responsively
+    review_url = "https://loadcalculation.realworldelectric.com/api/review_form"
+    contact_url = "https://loadcalculation.realworldelectric.com/api/contact"
+
     review_button = (
         '<p style="text-align: center; margin: 20px 0;">'
-        '<a href="/api/review_form" '
+        f'<a href="{review_url}" '
         'style="display:block; max-width:300px; width:90%; margin:0 auto; '
         'background:' + text_color + '; color:' + brand_color + '; padding: 12px 0; '
         'text-align:center; text-decoration:none; border-radius:5px; font-weight:bold; font-size:16px;">'
@@ -85,7 +88,7 @@ def build_branded_email():
     # Action button for contacting us – styled similarly
     contact_button = (
         '<p style="text-align: center; margin: 20px 0;">'
-        '<a href="/api/contact" '
+        f'<a href="{contact_url}" '
         'style="display:block; max-width:300px; width:90%; margin:0 auto; '
         'background:' + text_color + '; color:' + brand_color + '; padding: 12px 0; '
         'text-align:center; text-decoration:none; border-radius:5px; font-weight:bold; font-size:16px;">'

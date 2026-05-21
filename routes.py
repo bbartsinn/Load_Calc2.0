@@ -2,7 +2,6 @@
 from flask import Blueprint, request, jsonify, render_template
 import requests
 import os
-import pdfkit  # Used to generate PDF attachments
 import json
 import logging
 import re
@@ -13,7 +12,8 @@ from services.calculation_engine import (
     combined_load,
     calculate_service_parameters
 )
-from services.email_template import build_branded_email, build_pdf_content
+from services.email_template import build_branded_email
+from services.pdf_generator import build_calculation_pdf
 
 api = Blueprint('api', __name__)
 logger = logging.getLogger(__name__)
@@ -207,9 +207,8 @@ def send_calculation_email():
         "result": result_data
     }
 
-    pdf_html = build_pdf_content(calculation_data)
     try:
-        pdf_bytes = pdfkit.from_string(pdf_html, False)
+        pdf_bytes = build_calculation_pdf(calculation_data)
     except Exception as e:
         logger.exception("PDF generation failed")
         return jsonify({"success": False, "message": "PDF generation failed."}), 500
@@ -338,8 +337,7 @@ def submit_review_form():
             calc_input_data = json.loads(calc_input)
             calc_result_data = json.loads(calc_result)
             calculation_data = {"input": calc_input_data, "result": calc_result_data}
-            pdf_html = build_pdf_content(calculation_data)
-            pdf_attachment = pdfkit.from_string(pdf_html, False)
+            pdf_attachment = build_calculation_pdf(calculation_data)
             review_content += "<p>The attached PDF contains the full calculation details.</p>"
         except Exception as e:
             logger.exception("Review calculation PDF generation failed")

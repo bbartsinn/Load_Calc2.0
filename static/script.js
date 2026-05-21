@@ -264,22 +264,37 @@ async function calculateLoad(event) {
 async function sendCalculationEmail() {
   const userEmail = window.prompt("Email address for the calculation PDF:");
   if (!userEmail) return;
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(userEmail)) {
+    window.alert("Enter a valid email address.");
+    return;
+  }
   if (!lastCalculationInput || !lastCalculationResult) {
     window.alert("Calculate first, then send the PDF.");
     return;
   }
 
-  const response = await fetch("/api/send_calculation_email", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      userEmail,
-      inputData: lastCalculationInput,
-      resultData: lastCalculationResult,
-    }),
-  });
-  const payload = await response.json();
-  window.alert(payload.message || "Email request complete.");
+  const button = $("#emailButton");
+  button.disabled = true;
+  button.textContent = "Sending...";
+  try {
+    const response = await fetch("/api/send_calculation_email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userEmail,
+        inputData: lastCalculationInput,
+        resultData: lastCalculationResult,
+      }),
+    });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.message || "Email failed to send.");
+    window.alert(payload.message || "Email sent successfully.");
+  } catch (error) {
+    window.alert(error.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = "Email PDF";
+  }
 }
 
 function resetCalculator() {

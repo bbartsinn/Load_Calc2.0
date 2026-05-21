@@ -41,6 +41,19 @@ class ApiTest(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
 
+    def test_email_endpoint_generates_pdf_before_mailgun_config_check(self):
+        response = self.client.post("/api/send_calculation_email", json={
+            "userEmail": "owner@example.com",
+            "inputData": {
+                "conductor_type": "Copper",
+                "units": [{"unit_type": "SFD", "area_m2": 90, "range_watts": 12000}],
+            },
+            "resultData": {},
+        })
+
+        self.assertEqual(response.status_code, 500)
+        self.assertIn("Mailgun environment variables", response.get_json()["message"])
+
 
 if __name__ == "__main__":
     unittest.main()
