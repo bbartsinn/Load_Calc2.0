@@ -493,6 +493,53 @@ dd {
   overflow-wrap: anywhere;
 }
 
+.area-summary {
+  display: grid;
+  gap: 1px;
+  margin-top: 10px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--line);
+  font-size: 12px;
+}
+
+.area-summary-heading,
+.area-summary-row,
+.area-summary-total {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(64px, 0.7fr);
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+  padding: 8px 7px;
+  background: #fff;
+}
+
+.area-summary-heading {
+  grid-template-columns: minmax(0, 1fr) minmax(70px, auto);
+  color: var(--muted);
+  background: var(--soft);
+}
+
+.area-summary-total {
+  grid-template-columns: minmax(0, 1fr) minmax(70px, auto);
+  font-weight: 900;
+}
+
+.area-summary span,
+.area-summary strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.area-summary-row span:nth-child(2),
+.area-summary-row strong,
+.area-summary-heading span,
+.area-summary-total strong {
+  text-align: right;
+}
+
 .breakdown-table {
   display: grid;
   gap: 1px;

@@ -15,7 +15,29 @@ def basic_load(area_m2):
     if area_m2 <= 90:
         return 5000
     additional_area = area_m2 - 90
-    return 5000 + (1000 * ((additional_area + 89) // 90))  # round up per 90m²
+    return 5000 + (1000 * (additional_area / 90))
+
+
+def area_load_summary(above_ground_m2=0, below_ground_m2=0, fallback_area_m2=0):
+    below_ground_counted_m2 = below_ground_m2 * BELOW_GROUND_AREA_FACTOR
+    effective_area_m2 = effective_living_area(above_ground_m2, below_ground_m2, fallback_area_m2)
+
+    if above_ground_m2 or below_ground_m2:
+        above_ground_watts = basic_load(above_ground_m2)
+        below_ground_watts = basic_load(effective_area_m2) - above_ground_watts
+    else:
+        above_ground_watts = basic_load(fallback_area_m2)
+        below_ground_watts = 0
+
+    return {
+        "above_ground_m2": above_ground_m2,
+        "below_ground_m2": below_ground_m2,
+        "below_ground_counted_m2": below_ground_counted_m2,
+        "effective_area_m2": effective_area_m2,
+        "above_ground_watts": above_ground_watts,
+        "below_ground_watts": below_ground_watts,
+        "basic_area_watts": basic_load(effective_area_m2),
+    }
 
 def space_heating_load(load_watts):
     # Always 100%
@@ -131,7 +153,7 @@ def unit_demand_breakdown(
     if base:
         rows.append({
             "label": "Basic area load",
-            "rule": "5,000 W for first 90 m2, plus 1,000 W for each additional 90 m2 or portion",
+            "rule": "5,000 W for first 90 m2, plus 1,000 W per additional 90 m2",
             "nameplate_watts": None,
             "demand_percent": None,
             "demand_watts": base,
@@ -373,6 +395,11 @@ def calculate_unit_loads(data, conductor_type="Copper"):
         below_ground_m2,
         data.get("area_m2", 0)
     )
+    area_summary = area_load_summary(
+        above_ground_m2,
+        below_ground_m2,
+        data.get("area_m2", 0)
+    )
 
     # Interlocked scenario
     interlocked = data.get("heating_cooling_interlocked", False)
@@ -427,6 +454,7 @@ def calculate_unit_loads(data, conductor_type="Copper"):
         "above_ground_m2": above_ground_m2,
         "below_ground_m2": below_ground_m2,
         "area_m2": area_m2,
+        "area_summary": area_summary,
         "calculated_load": total,
         "calculated_load_no_hvac": total_no_hvac_val,
         "space_heating": space_heating,

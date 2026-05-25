@@ -2,6 +2,8 @@ import unittest
 
 from services.calculation_engine import (
     additional_loads,
+    area_load_summary,
+    basic_load,
     calculate_service_parameters,
     calculate_unit_loads,
     combined_load,
@@ -79,6 +81,15 @@ class CalculationEngineTest(unittest.TestCase):
 
     def test_below_ground_area_counts_at_75_percent(self):
         self.assertEqual(effective_living_area(above_ground_m2=90, below_ground_m2=100), 165)
+
+    def test_below_ground_area_keeps_75_percent_in_basic_wattage(self):
+        summary = area_load_summary(above_ground_m2=90, below_ground_m2=90)
+
+        self.assertEqual(summary["effective_area_m2"], 157.5)
+        self.assertEqual(summary["above_ground_watts"], 5000)
+        self.assertEqual(summary["below_ground_watts"], 750)
+        self.assertEqual(summary["basic_area_watts"], 5750)
+        self.assertEqual(basic_load(157.5), 5750)
 
     def test_non_hvac_nameplate_watts_are_not_rounded(self):
         result = calculate_unit_loads({"unit_type": "SFD", "pool_hot_tub_watts": 5760}, "Copper")

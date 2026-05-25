@@ -27,6 +27,11 @@ function formatWatts(value) {
   return `${number.toLocaleString(undefined, { maximumFractionDigits: 2 })} W`;
 }
 
+function formatM2(value) {
+  const number = Number(value) || 0;
+  return `${number.toLocaleString(undefined, { maximumFractionDigits: 2 })} m2`;
+}
+
 function formatAmps(value) {
   return `${(Number(value) || 0).toFixed(1)} A`;
 }
@@ -201,6 +206,7 @@ function renderResults(data) {
         <div><dt>OCP</dt><dd>${unit.unit_ocp || "N/A"}</dd></div>
         <div><dt>Conductor</dt><dd>${unit.unit_conductor || "N/A"}</dd></div>
       </dl>
+      ${renderAreaSummary(unit.area_summary)}
       ${renderBreakdownTable(unit.breakdown || [])}
     </article>
   `).join("");
@@ -211,6 +217,32 @@ function renderResults(data) {
   }
 
   $("#reviewButton").disabled = false;
+}
+
+function renderAreaSummary(summary) {
+  if (!summary) return "";
+  return `
+    <div class="area-summary">
+      <div class="area-summary-heading">
+        <strong>Area used for BASIC demand</strong>
+        <span>${formatM2(summary.effective_area_m2)}</span>
+      </div>
+      <div class="area-summary-row">
+        <span>Above ground</span>
+        <span>${formatM2(summary.above_ground_m2)}</span>
+        <strong>${formatWatts(summary.above_ground_watts)}</strong>
+      </div>
+      <div class="area-summary-row">
+        <span>Below ground, 75% counted</span>
+        <span>${formatM2(summary.below_ground_counted_m2)} of ${formatM2(summary.below_ground_m2)}</span>
+        <strong>${formatWatts(summary.below_ground_watts)}</strong>
+      </div>
+      <div class="area-summary-total">
+        <span>Basic area watts</span>
+        <strong>${formatWatts(summary.basic_area_watts)}</strong>
+      </div>
+    </div>
+  `;
 }
 
 function renderBreakdownTable(rows) {
