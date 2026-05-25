@@ -70,12 +70,17 @@ def _draw_text(c, x, y, text, size=8, align="right", bold=False):
         c.drawString(x, y, str(text))
 
 
-def _draw_address(c, x, y, text, width=240):
+def _draw_address(c, x, y, text, width=240, align="center"):
     if not text:
         return
     value = str(text).strip()
     c.setFont("Helvetica", 8)
-    c.drawString(x, y, value[:72])
+    if align == "center":
+        c.drawCentredString(x, y, value[:72])
+    elif align == "right":
+        c.drawRightString(x, y, value[:72])
+    else:
+        c.drawString(x, y, value[:72])
 
 
 def _unit_component_values(input_unit, result_unit):
@@ -122,9 +127,9 @@ def _build_overlay(input_data, result_data):
     c = canvas.Canvas(buffer, pagesize=(612, 792))
 
     project = input_data.get("project", {})
-    _draw_address(c, 173, 607, project.get("sfd_address"))
-    _draw_address(c, 160, 579, project.get("ss_address"))
-    _draw_address(c, 445, 579, project.get("lwh_address"))
+    _draw_address(c, 275, 607, project.get("sfd_address"), align="left")
+    _draw_address(c, 176, 568, project.get("ss_address"))
+    _draw_address(c, 468, 568, project.get("lwh_address"))
 
     input_units = _unit_lookup(input_data.get("units"))
     result_units = _unit_lookup(result_data.get("units"))
@@ -143,8 +148,7 @@ def _build_overlay(input_data, result_data):
         "minimum": 269,
         "total": 238,
         "breaker": 205,
-        "conductor_metal": 214,
-        "conductor_size": 202,
+        "conductor": 217,
     }
 
     for unit, x in UNIT_X.items():
@@ -166,9 +170,9 @@ def _build_overlay(input_data, result_data):
         _draw_text(c, x, row_y["minimum"], values["minimum"], size=8)
         _draw_text(c, x - 8, row_y["total"], _fmt_watts(values["total"]), size=10, bold=True)
         _draw_text(c, x - 55, row_y["breaker"], values["breaker"].replace("A", ""), size=8)
-        size, metal = _conductor_parts(values["conductor"], conductor_type)
-        _draw_text(c, x - 2, row_y["conductor_metal"], metal, size=6)
-        _draw_text(c, x - 2, row_y["conductor_size"], size, size=8)
+        conductor_size, metal = _conductor_parts(values["conductor"], conductor_type)
+        conductor_label = " ".join(part for part in [conductor_size, metal] if part)
+        _draw_text(c, x - 2, row_y["conductor"], conductor_label, size=6.5, align="center")
 
     demand_by_unit = _service_demand_by_unit(result_data)
     total_space_heat = sum(_num(unit.get("space_heating")) for unit in input_data.get("units", []))
