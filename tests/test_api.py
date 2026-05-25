@@ -1,5 +1,7 @@
 import unittest
 from unittest.mock import patch
+from pypdf import PdfReader
+from io import BytesIO
 
 from app import app
 
@@ -151,6 +153,45 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(response.content_type, "application/pdf")
         self.assertGreater(len(response.data), 100000)
         self.assertTrue(response.data.startswith(b"%PDF"))
+
+    def test_city_form_pdf_generates_edmonton_pdf(self):
+        response = self.client.post("/api/city_form_pdf", json={
+            "formType": "edmonton",
+            "inputData": {
+                "conductor_type": "Copper",
+                "project": {
+                    "sfd_address": "123 Main St",
+                    "ss_address": "Basement Suite",
+                    "lwh_address": "Garden Suite",
+                },
+                "units": [
+                    {"unit_type": "SFD", "area_m2": 90, "range_watts": 6000},
+                    {"unit_type": "SS", "area_m2": 75},
+                    {"unit_type": "LWH", "area_m2": 60},
+                ],
+            },
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content_type, "application/pdf")
+        self.assertGreater(len(response.data), 100000)
+        self.assertTrue(response.data.startswith(b"%PDF"))
+        text = "\n".join(page.extract_text() or "" for page in PdfReader(BytesIO(response.data)).pages)
+        self.assertIn("123 Main St", text)
+        self.assertIn("Basement Suite", text)
+        self.assertIn("Garden Suite", text)
+
+    def test_city_form_pdf_rejects_unknown_form_type(self):
+        response = self.client.post("/api/city_form_pdf", json={
+            "formType": "red-deer",
+            "inputData": {
+                "conductor_type": "Copper",
+                "units": [{"unit_type": "SFD", "area_m2": 90}],
+            },
+        })
+
+        self.assertEqual(response.status_code, 400)
+        self.assertIn("formType", response.get_json()["message"])
 
     def test_city_form_project_fields_follow_selected_units(self):
         from routes import normalize_calculation_input

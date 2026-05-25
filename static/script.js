@@ -113,14 +113,39 @@ function selectedUnits() {
   return $$(".unit-toggle:checked").map((input) => input.value);
 }
 
+function selectedCityFormType() {
+  return $("[name='cityFormType']")?.value || "calgary";
+}
+
 function updateCityFormFields() {
   const units = selectedUnits();
+  const formType = selectedCityFormType();
+  const isCalgary = formType === "calgary";
+
+  $$(".calgary-only-field").forEach((field) => {
+    field.classList.toggle("hidden", !isCalgary);
+    $$("input", field).forEach((input) => {
+      input.disabled = !isCalgary;
+      if (!isCalgary) input.value = "";
+    });
+  });
+
+  $$("[data-calgary-label][data-edmonton-label]").forEach((label) => {
+    label.textContent = formType === "edmonton" ? label.dataset.edmontonLabel : label.dataset.calgaryLabel;
+  });
+
+  const lwhAddress = $("[name='lwhAddress']");
+  if (lwhAddress) {
+    lwhAddress.placeholder = formType === "edmonton" ? "Garden suite address" : "Laneway/backyard suite address";
+  }
+
   $$(".city-unit-field").forEach((field) => {
     const isActive = units.includes(field.dataset.cityUnit);
-    field.classList.toggle("hidden", !isActive);
+    const isVisible = isActive && (!field.classList.contains("calgary-only-field") || isCalgary);
+    field.classList.toggle("hidden", !isVisible);
     $$("input", field).forEach((input) => {
-      input.disabled = !isActive;
-      if (!isActive) input.value = "";
+      input.disabled = !isVisible;
+      if (!isVisible) input.value = "";
     });
   });
 }
@@ -196,12 +221,13 @@ function collectFormData(options = {}) {
     num_units: units.length,
     conductor_type: $("[name='conductorType']:checked").value,
     project: {
+      city_form_type: selectedCityFormType(),
       sfd_address: $("[name='sfdAddress']")?.value.trim() || "",
-      sfd_ep: $("[name='sfdEp']")?.value.trim() || "",
+      sfd_ep: selectedCityFormType() === "calgary" ? ($("[name='sfdEp']")?.value.trim() || "") : "",
       ss_address: activeUnits.includes("SS") ? ($("[name='ssAddress']")?.value.trim() || "") : "",
-      ss_ep: activeUnits.includes("SS") ? ($("[name='ssEp']")?.value.trim() || "") : "",
+      ss_ep: selectedCityFormType() === "calgary" && activeUnits.includes("SS") ? ($("[name='ssEp']")?.value.trim() || "") : "",
       lwh_address: activeUnits.includes("LWH") ? ($("[name='lwhAddress']")?.value.trim() || "") : "",
-      lwh_ep: activeUnits.includes("LWH") ? ($("[name='lwhEp']")?.value.trim() || "") : "",
+      lwh_ep: selectedCityFormType() === "calgary" && activeUnits.includes("LWH") ? ($("[name='lwhEp']")?.value.trim() || "") : "",
     },
     units,
   };
@@ -378,6 +404,7 @@ async function downloadCityFormPdf() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        formType: lastCalculationInput.project?.city_form_type || selectedCityFormType(),
         inputData: lastCalculationInput,
         resultData: lastCalculationResult,
       }),
@@ -396,8 +423,9 @@ async function downloadCityFormPdf() {
     const blob = await response.blob();
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
+    const formType = lastCalculationInput.project?.city_form_type || selectedCityFormType();
     link.href = url;
-    link.download = "City-of-Calgary-load-calculation.pdf";
+    link.download = formType === "edmonton" ? "City-of-Edmonton-load-calculation.pdf" : "City-of-Calgary-load-calculation.pdf";
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -406,7 +434,7 @@ async function downloadCityFormPdf() {
     window.alert(error.message);
   } finally {
     button.disabled = false;
-    button.textContent = "City form PDF";
+    button.textContent = "Download city form PDF";
   }
 }
 
@@ -452,6 +480,7 @@ function initDisclaimer() {
 
 document.addEventListener("DOMContentLoaded", () => {
   $$(".unit-toggle").forEach((input) => input.addEventListener("change", renderUnits));
+  $("#cityFormType").addEventListener("change", updateCityFormFields);
   $("#loadCalcForm").addEventListener("submit", calculateLoad);
   $("#emailButton").addEventListener("click", sendCalculationEmail);
   $("#cityFormButton").addEventListener("click", downloadCityFormPdf);

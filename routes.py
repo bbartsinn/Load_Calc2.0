@@ -17,11 +17,13 @@ from services.calculation_engine import (
 from services.email_template import build_branded_email
 from services.pdf_generator import build_calculation_pdf
 from services.calgary_form_pdf import build_city_of_calgary_form_pdf
+from services.edmonton_form_pdf import build_city_of_edmonton_form_pdf
 
 api = Blueprint('api', __name__)
 logger = logging.getLogger(__name__)
 
 VALID_CONDUCTOR_TYPES = {"Copper", "Aluminum"}
+VALID_CITY_FORMS = {"calgary", "edmonton"}
 EMAIL_RE = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
 
 
@@ -205,22 +207,30 @@ def calculate():
 def city_form_pdf():
     data = request.get_json() or {}
     input_data = data.get('inputData') or data
+    form_type = str(data.get('formType') or input_data.get("project", {}).get("city_form_type") or "calgary").lower()
 
     try:
+        if form_type not in VALID_CITY_FORMS:
+            raise ValueError("formType must be calgary or edmonton")
         normalized_input = normalize_calculation_input(input_data)
         result_data = run_calculation(normalized_input)
-        pdf_bytes = build_city_of_calgary_form_pdf(normalized_input, result_data)
+        if form_type == "edmonton":
+            pdf_bytes = build_city_of_edmonton_form_pdf(normalized_input, result_data)
+            download_name = "City-of-Edmonton-load-calculation.pdf"
+        else:
+            pdf_bytes = build_city_of_calgary_form_pdf(normalized_input, result_data)
+            download_name = "City-of-Calgary-load-calculation.pdf"
     except ValueError as e:
         return jsonify({"success": False, "message": str(e)}), 400
     except Exception as e:
-        logger.exception("City of Calgary PDF generation failed")
-        return jsonify({"success": False, "message": "City of Calgary PDF generation failed."}), 500
+        logger.exception("City form PDF generation failed")
+        return jsonify({"success": False, "message": "City form PDF generation failed."}), 500
 
     return send_file(
         BytesIO(pdf_bytes),
         mimetype="application/pdf",
         as_attachment=True,
-        download_name="City-of-Calgary-load-calculation.pdf",
+        download_name=download_name,
     )
 
 # -------------------------------------------------------
