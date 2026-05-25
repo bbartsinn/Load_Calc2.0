@@ -58,16 +58,16 @@ def _build_overlay(input_data, result_data):
         "area_m2": 577,
         "basic_first_90": 550,
         "basic_additional": 523,
-        "space_heating": 501,
-        "air_conditioning": 480,
-        "range": 457,
-        "water_heaters": 425,
-        "ev": 399,
-        "additional": 367,
+        "space_heating": 510,
+        "air_conditioning": 493,
+        "range": 473,
+        "water_heaters": 448,
+        "ev": 423,
+        "additional": 397,
         "minimum": 355,
-        "total": 326,
-        "breaker": 318,
-        "conductor": 318,
+        "total": 329,
+        "breaker": 314,
+        "conductor": 314,
     }
 
     for unit, x in UNIT_X.items():
@@ -88,28 +88,28 @@ def _build_overlay(input_data, result_data):
             _draw_text(c, x, row_y[key], _fmt_watts(values[key]), size=7.2, align="center")
         _draw_text(c, x, row_y["minimum"], values["minimum"], size=7.2, align="center")
         _draw_text(c, x, row_y["total"], _fmt_watts(values["total"]), size=9, align="center", bold=True)
-        _draw_text(c, BREAKER_X[unit], row_y["breaker"], values["breaker"].replace("A", ""), size=6.8, align="center")
+        _draw_text(c, BREAKER_X[unit], row_y["breaker"], values["breaker"].replace("A", ""), size=5.1, align="center")
         conductor_size, metal = _conductor_parts(values["conductor"], conductor_type)
         conductor_label = " ".join(part for part in [conductor_size, metal] if part)
-        _draw_text(c, CONDUCTOR_X[unit], row_y["conductor"], conductor_label, size=4.4, align="center")
+        _draw_text(c, CONDUCTOR_X[unit], row_y["conductor"], conductor_label, size=3.3, align="center")
 
     demand_by_unit = _service_demand_by_unit(result_data)
     secondary_garden_demand = demand_by_unit.get("SS", 0) + demand_by_unit.get("LWH", 0)
     total_space_heat = sum(_num(unit.get("space_heating")) for unit in input_data.get("units", []))
     total_ac = sum(_num(unit.get("air_conditioning")) for unit in input_data.get("units", []))
 
-    _draw_text(c, 420, 248, _fmt_watts(demand_by_unit.get("SFD", 0)), size=8.5)
-    _draw_text(c, 420, 230, _fmt_watts(secondary_garden_demand), size=8.5)
-    _draw_text(c, 420, 204, _fmt_watts(total_space_heat), size=8.5)
-    _draw_text(c, 420, 184, _fmt_watts(total_ac), size=8.5)
+    _draw_text(c, 420, 258, _fmt_watts(demand_by_unit.get("SFD", 0)), size=8.5)
+    _draw_text(c, 420, 242, _fmt_watts(secondary_garden_demand), size=8.5)
+    _draw_text(c, 420, 217, _fmt_watts(total_space_heat), size=8.5)
+    _draw_text(c, 420, 196, _fmt_watts(total_ac), size=8.5)
     service_conductor_size, service_metal = _conductor_parts(
         result_data.get("Service Conductor Type and Size", ""),
         conductor_type,
     )
     service_conductor_label = " ".join(part for part in [service_conductor_size, service_metal] if part)
-    _draw_text(c, 339, 177, _fmt_watts(result_data.get("Total Calculated Load (Watts)", 0)), size=9.5, bold=True)
-    _draw_text(c, 405, 177, _fmt_amps(result_data.get("Total Amps", 0)), size=9.5, bold=True)
-    _draw_text(c, 450, 178, service_conductor_label, size=4.8, align="left")
+    _draw_text(c, 322, 184, _fmt_watts(result_data.get("Total Calculated Load (Watts)", 0)), size=9.5, bold=True)
+    _draw_text(c, 387, 184, _fmt_amps(result_data.get("Total Amps", 0)), size=9.5, bold=True)
+    _draw_text(c, 416, 183, service_conductor_label, size=4.4, align="left")
 
     c.showPage()
     c.save()
