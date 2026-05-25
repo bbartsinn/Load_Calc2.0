@@ -15,6 +15,7 @@ const LOAD_FIELDS = [
 ];
 
 const BELOW_GROUND_AREA_FACTOR = 0.75;
+const DISCLAIMER_ACCEPTED_KEY = "rweCalculatorDisclaimerAccepted";
 
 let lastCalculationInput = null;
 let lastCalculationResult = null;
@@ -346,6 +347,40 @@ function resetCalculator() {
   window.location.reload();
 }
 
+function storageGet(storage, key) {
+  try {
+    return storage.getItem(key);
+  } catch {
+    return null;
+  }
+}
+
+function storageSet(storage, key, value) {
+  try {
+    storage.setItem(key, value);
+  } catch {
+    // The modal still closes if storage is unavailable.
+  }
+}
+
+function initDisclaimer() {
+  const modal = $("#disclaimerModal");
+  const acceptButton = $("#acceptDisclaimerButton");
+  if (!modal || !acceptButton) return;
+
+  if (storageGet(sessionStorage, DISCLAIMER_ACCEPTED_KEY) === "yes") {
+    modal.classList.add("hidden");
+    return;
+  }
+
+  modal.classList.remove("hidden");
+  acceptButton.focus();
+  acceptButton.addEventListener("click", () => {
+    storageSet(sessionStorage, DISCLAIMER_ACCEPTED_KEY, "yes");
+    modal.classList.add("hidden");
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   $$(".unit-toggle").forEach((input) => input.addEventListener("change", renderUnits));
   $("#loadCalcForm").addEventListener("submit", calculateLoad);
@@ -353,4 +388,5 @@ document.addEventListener("DOMContentLoaded", () => {
   $("#reviewButton").addEventListener("click", () => { window.location.href = "/api/review_form"; });
   $("#resetButton").addEventListener("click", resetCalculator);
   renderUnits();
+  initDisclaimer();
 });

@@ -685,6 +685,41 @@ dd {
   color: var(--muted);
 }
 
+.disclaimer-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(22, 32, 41, 0.58);
+}
+
+.disclaimer-dialog {
+  width: min(620px, 100%);
+  max-height: min(86vh, 720px);
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: var(--shadow);
+  padding: 22px;
+}
+
+.disclaimer-dialog h2 {
+  font-size: 28px;
+}
+
+.disclaimer-dialog p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.disclaimer-dialog .primary-action {
+  width: 100%;
+  margin-top: 8px;
+}
+
 .hidden {
   display: none !important;
 }

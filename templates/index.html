@@ -4,9 +4,29 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>City of Calgary Digital Load Calculator</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=20260525-1308">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=20260525-1325">
 </head>
 <body>
+  <div class="disclaimer-modal hidden" id="disclaimerModal" role="dialog" aria-modal="true" aria-labelledby="disclaimerTitle">
+    <div class="disclaimer-dialog">
+      <p class="eyebrow">Before you use the calculator</p>
+      <h2 id="disclaimerTitle">Educational use only</h2>
+      <p>
+        This calculator is provided for general educational and planning purposes only. It is not professional engineering advice,
+        permit approval, or a guarantee of Canadian Electrical Code compliance.
+      </p>
+      <p>
+        The results depend on the information entered by the user and may be incomplete or incorrect. Real World Electric is not
+        liable for any loss, damage, permit issue, code issue, or other consequence arising from the use of, or reliance on, this calculator.
+      </p>
+      <p>
+        Have all calculations reviewed by a qualified electrician, engineer, utility, or authority having jurisdiction before using them for design,
+        construction, service sizing, or permit submissions.
+      </p>
+      <button type="button" class="primary-action" id="acceptDisclaimerButton">I understand</button>
+    </div>
+  </div>
+
   <main class="app-shell">
     <section class="workspace">
       <header class="topbar">
@@ -116,6 +136,6 @@
     <a href="mailto:Bart@Realworldelectric.com">Bart@Realworldelectric.com</a>
   </footer>
 
-  <script src="{{ url_for('static', filename='script.js') }}?v=20260525-1308"></script>
+  <script src="{{ url_for('static', filename='script.js') }}?v=20260525-1325"></script>
 </body>
 </html>
