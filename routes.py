@@ -48,9 +48,16 @@ def normalize_calculation_input(data):
     for index, unit in enumerate(raw_units, start=1):
         if not isinstance(unit, dict):
             raise ValueError(f"Unit {index} must be an object")
+        above_ground_m2 = _number(unit.get("above_ground_m2"), f"Unit {index} above_ground_m2")
+        below_ground_m2 = _number(unit.get("below_ground_m2"), f"Unit {index} below_ground_m2")
+        area_m2 = _number(unit.get("area_m2"), f"Unit {index} area_m2")
+        if above_ground_m2 or below_ground_m2:
+            area_m2 = above_ground_m2 + below_ground_m2
         units.append({
             "unit_type": str(unit.get("unit_type") or f"Unit {index}")[:40],
-            "area_m2": _number(unit.get("area_m2"), f"Unit {index} area_m2"),
+            "above_ground_m2": above_ground_m2,
+            "below_ground_m2": below_ground_m2,
+            "area_m2": area_m2,
             "space_heating": _number(unit.get("space_heating"), f"Unit {index} space_heating"),
             "air_conditioning": _number(unit.get("air_conditioning"), f"Unit {index} air_conditioning"),
             "heating_cooling_interlocked": bool(unit.get("heating_cooling_interlocked", False)),
@@ -95,8 +102,8 @@ def run_calculation(input_data):
 
     return {
         "units": units_data,
-        "Combined No-HVAC Load (Watts)": combined_no_hvac,
-        "Total HVAC Load (Watts)": total_hvac_load,
+        "Basic Demand Load (Watts)": combined_no_hvac,
+        "100% Towards Demand Load (Watts)": total_hvac_load,
         "Total Calculated Load (Watts)": final_combined_load,
         "Total Amps": final_combined_load / 240.0,
         "Service OCP size (Amps)": service_ocp_label,
@@ -112,11 +119,11 @@ def build_service_breakdown(units_data, combined_no_hvac, total_hvac_load):
         reverse=True
     )
     tiers = [
-        (1, 100, "Largest unit no-HVAC load"),
-        (2, 65, "Next two unit no-HVAC loads"),
-        (2, 40, "Next two unit no-HVAC loads"),
-        (15, 25, "Next fifteen unit no-HVAC loads"),
-        (float("inf"), 10, "Remaining unit no-HVAC loads"),
+        (1, 100, "Largest unit BASIC demand"),
+        (2, 65, "Next two unit BASIC demand loads"),
+        (2, 40, "Next two unit BASIC demand loads"),
+        (15, 25, "Next fifteen unit BASIC demand loads"),
+        (float("inf"), 10, "Remaining unit BASIC demand loads"),
     ]
 
     rows = []
@@ -128,19 +135,19 @@ def build_service_breakdown(units_data, combined_no_hvac, total_hvac_load):
         for unit in selected:
             nameplate = unit["calculated_load_no_hvac"]
             rows.append({
-                "label": f"{unit.get('unit_type', 'Unit')} no-HVAC demand",
+                "label": f"{unit.get('unit_type', 'Unit')} BASIC demand",
                 "rule": label,
                 "nameplate_watts": nameplate,
                 "demand_percent": percent,
                 "demand_watts": nameplate * (percent / 100),
-                "note": "HVAC excluded at this step",
+                "note": "100% demand loads excluded at this step",
             })
         index += len(selected)
 
     if total_hvac_load:
         rows.append({
-            "label": "Total HVAC load",
-            "rule": "Add heat/AC after suite demand calculation",
+            "label": "100% Towards Demand load",
+            "rule": "Add after BASIC demand calculation",
             "nameplate_watts": total_hvac_load,
             "demand_percent": 100,
             "demand_watts": total_hvac_load,
@@ -149,7 +156,7 @@ def build_service_breakdown(units_data, combined_no_hvac, total_hvac_load):
 
     rows.append({
         "label": "Final service demand",
-        "rule": "Combined no-HVAC demand plus HVAC",
+        "rule": "BASIC demand plus 100% towards demand load",
         "nameplate_watts": None,
         "demand_percent": None,
         "demand_watts": combined_no_hvac + total_hvac_load,

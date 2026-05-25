@@ -11,7 +11,7 @@ def _value(value):
     if value is None:
         return "-"
     if isinstance(value, float):
-        return f"{value:,.1f}"
+        return f"{value:,.2f}".rstrip("0").rstrip(".")
     if isinstance(value, int):
         return f"{value:,}"
     return str(value)
@@ -94,8 +94,8 @@ def build_calculation_pdf(calculation_data):
 
     story.append(Paragraph("Overall Totals", styles["Heading2"]))
     total_keys = [
-        "Combined No-HVAC Load (Watts)",
-        "Total HVAC Load (Watts)",
+        "Basic Demand Load (Watts)",
+        "100% Towards Demand Load (Watts)",
         "Total Calculated Load (Watts)",
         "Total Amps",
         "Service OCP size (Amps)",

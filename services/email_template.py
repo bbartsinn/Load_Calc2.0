@@ -8,7 +8,8 @@ def safe(value):
 def fmt_watts(value):
     if value is None:
         return "-"
-    return f"{round(float(value)):,} W"
+    number = float(value)
+    return f"{number:,.2f}".rstrip("0").rstrip(".") + " W"
 
 
 def fmt_percent(value):
@@ -161,8 +162,8 @@ def build_pdf_content(calculation_data):
               },
               ...
            ],
-           "Combined No-HVAC Load (Watts)": ...,
-           "Total HVAC Load (Watts)": ...,
+           "Basic Demand Load (Watts)": ...,
+           "100% Towards Demand Load (Watts)": ...,
            "Total Calculated Load (Watts)": ...,
            "Total Amps": ...,
            "Service OCP size (Amps)": ...,
@@ -269,8 +270,8 @@ def build_pdf_content(calculation_data):
         html += "<p style='text-align: center;'>No unit calculation results available.</p>"
 
     # --- Overall Totals Section ---
-    overall_keys = ["Combined No-HVAC Load (Watts)", "Total HVAC Load (Watts)", 
-                    "Total Calculated Load (Watts)", "Total Amps", 
+    overall_keys = ["Basic Demand Load (Watts)", "100% Towards Demand Load (Watts)",
+                    "Total Calculated Load (Watts)", "Total Amps",
                     "Service OCP size (Amps)", "Service Conductor Type and Size"]
     html += "<h2>Overall Totals</h2>"
     html += "<table><tbody>"

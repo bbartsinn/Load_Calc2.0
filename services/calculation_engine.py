@@ -359,13 +359,15 @@ def select_ocp(amps, area_m2):
 def calculate_unit_loads(data, conductor_type="Copper"):
     unit_type = data.get("unit_type", "Unit")
     area_m2 = data.get("area_m2", 0)
+    above_ground_m2 = data.get("above_ground_m2", 0)
+    below_ground_m2 = data.get("below_ground_m2", 0)
 
     # Interlocked scenario
     interlocked = data.get("heating_cooling_interlocked", False)
 
     space_heating = data.get("space_heating", 0)
     air_conditioning = data.get("air_conditioning", 0)
-    range_watts = round(data.get("range_watts", 0))
+    range_watts = data.get("range_watts", 0)
 
     # These loads are always at 100%.
     tankless_watts = data.get("tankless_watts", 0)
@@ -410,6 +412,8 @@ def calculate_unit_loads(data, conductor_type="Copper"):
 
     return {
         "unit_type": unit_type,
+        "above_ground_m2": above_ground_m2,
+        "below_ground_m2": below_ground_m2,
         "area_m2": area_m2,
         "calculated_load": total,
         "calculated_load_no_hvac": total_no_hvac_val,

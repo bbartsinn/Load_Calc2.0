@@ -292,6 +292,9 @@ h3 {
 }
 
 .primary-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 280px));
+  gap: 10px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -668,6 +671,7 @@ dd {
   }
 
   .calculator-grid,
+  .primary-fields,
   .load-list,
   .additional-row {
     grid-template-columns: 1fr;

@@ -63,6 +63,13 @@ class CalculationEngineTest(unittest.TestCase):
 
         self.assertEqual(load, 7500)
 
+    def test_non_hvac_nameplate_watts_are_not_rounded(self):
+        result = calculate_unit_loads({"unit_type": "SFD", "pool_hot_tub_watts": 5760}, "Copper")
+
+        self.assertEqual(result["calculated_load"], 5760)
+        self.assertEqual(result["breakdown"][0]["nameplate_watts"], 5760)
+        self.assertEqual(result["breakdown"][0]["demand_watts"], 5760)
+
     def test_multi_unit_service_ocp_is_sized_from_combined_load(self):
         units = [
             calculate_unit_loads({"unit_type": "SFD", "area_m2": 200}, "Copper"),

@@ -21,7 +21,8 @@ const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 
 function formatWatts(value) {
-  return `${Math.round(Number(value) || 0).toLocaleString()} W`;
+  const number = Number(value) || 0;
+  return `${number.toLocaleString(undefined, { maximumFractionDigits: 2 })} W`;
 }
 
 function formatAmps(value) {
@@ -44,7 +45,7 @@ function unitCard(unit) {
         <span>${label}</span>
         <small>${hint}</small>
       </label>
-      <input type="number" min="0" step="100" inputmode="decimal" name="${key}_${unit}" placeholder="0">
+      <input type="number" min="0" step="1" inputmode="decimal" name="${key}_${unit}" placeholder="0">
     </div>
   `).join("");
 
@@ -63,8 +64,12 @@ function unitCard(unit) {
 
       <div class="primary-fields">
         <label class="input-field">
-          <span>Living area</span>
-          <input type="number" min="0" step="0.1" inputmode="decimal" name="area_m2_${unit}" placeholder="m²">
+          <span>Above ground m2</span>
+          <input type="number" min="0" step="0.1" inputmode="decimal" name="above_ground_m2_${unit}" placeholder="m2">
+        </label>
+        <label class="input-field">
+          <span>Below ground m2</span>
+          <input type="number" min="0" step="0.1" inputmode="decimal" name="below_ground_m2_${unit}" placeholder="m2">
         </label>
       </div>
 
@@ -89,7 +94,7 @@ function additionalLoadRow() {
   row.className = "additional-row";
   row.innerHTML = `
     <input type="text" class="additional-description" placeholder="Description">
-    <input type="number" class="additional-watts" min="0" step="100" inputmode="decimal" placeholder="Watts">
+    <input type="number" class="additional-watts" min="0" step="1" inputmode="decimal" placeholder="Watts">
     <button type="button" class="icon-button remove-load" aria-label="Remove additional load" title="Remove">Remove</button>
   `;
   row.querySelector(".remove-load").addEventListener("click", () => row.remove());
@@ -117,7 +122,9 @@ function renderUnits() {
 }
 
 function restoreUnitValues(card, data) {
-  $(`[name="area_m2_${data.unit_type}"]`, card).value = data.area_m2 || "";
+  const aboveGround = data.above_ground_m2 ?? data.area_m2 ?? "";
+  $(`[name="above_ground_m2_${data.unit_type}"]`, card).value = aboveGround || "";
+  $(`[name="below_ground_m2_${data.unit_type}"]`, card).value = data.below_ground_m2 || "";
   $(`[name="interlocked_${data.unit_type}"]`, card).checked = Boolean(data.heating_cooling_interlocked);
   LOAD_FIELDS.forEach(([key]) => {
     const input = $(`[name="${key}_${data.unit_type}"]`, card);
@@ -148,11 +155,13 @@ function collectFormData(options = {}) {
 
     const unitData = {
       unit_type: unit,
-      area_m2: parseNumber($(`[name="area_m2_${unit}"]`, card)),
+      above_ground_m2: parseNumber($(`[name="above_ground_m2_${unit}"]`, card)),
+      below_ground_m2: parseNumber($(`[name="below_ground_m2_${unit}"]`, card)),
       heating_cooling_interlocked: $(`[name="interlocked_${unit}"]`, card).checked,
       additional_items: additionalItems,
       additional_load: additionalItems.reduce((sum, item) => sum + item.watts, 0),
     };
+    unitData.area_m2 = unitData.above_ground_m2 + unitData.below_ground_m2;
 
     LOAD_FIELDS.forEach(([key]) => {
       unitData[key] = parseNumber($(`[name="${key}_${unit}"]`, card));
@@ -176,8 +185,8 @@ function renderResults(data) {
   $("#totalWatts").textContent = `${formatWatts(data["Total Calculated Load (Watts)"])} total load`;
   $("#serviceOcp").textContent = data["Service OCP size (Amps)"] || "N/A";
   $("#serviceConductor").textContent = data["Service Conductor Type and Size"] || "N/A";
-  $("#noHvacLoad").textContent = formatWatts(data["Combined No-HVAC Load (Watts)"]);
-  $("#hvacLoad").textContent = formatWatts(data["Total HVAC Load (Watts)"]);
+  $("#basicDemandLoad").textContent = formatWatts(data["Basic Demand Load (Watts)"] ?? data["Combined No-HVAC Load (Watts)"]);
+  $("#towardsDemandLoad").textContent = formatWatts(data["100% Towards Demand Load (Watts)"] ?? data["Total HVAC Load (Watts)"]);
 
   $("#unitResults").innerHTML = (data.units || []).map((unit) => `
     <article class="unit-result">
