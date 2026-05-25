@@ -27,15 +27,15 @@ UNIT_X = {
 }
 
 BREAKER_X = {
-    "SFD": 292,
-    "SS": 356,
-    "LWH": 421,
+    "SFD": 282,
+    "SS": 346,
+    "LWH": 411,
 }
 
 CONDUCTOR_X = {
-    "SFD": 324,
-    "SS": 388,
-    "LWH": 453,
+    "SFD": 314,
+    "SS": 378,
+    "LWH": 443,
 }
 
 
@@ -65,7 +65,7 @@ def _build_overlay(input_data, result_data):
         "ev": 423,
         "additional": 397,
         "minimum": 355,
-        "total": 328,
+        "total": 338,
         "breaker": 321,
         "conductor": 321,
     }
@@ -87,7 +87,7 @@ def _build_overlay(input_data, result_data):
         ]:
             _draw_text(c, x, row_y[key], _fmt_watts(values[key]), size=7.2, align="center")
         _draw_text(c, x, row_y["minimum"], values["minimum"], size=7.2, align="center")
-        _draw_text(c, x, row_y["total"], _fmt_watts(values["total"]), size=7.2, align="center", bold=True)
+        _draw_text(c, x - 18, row_y["total"], _fmt_watts(values["total"]), size=6.8, align="center", bold=True)
         _draw_text(c, BREAKER_X[unit], row_y["breaker"], values["breaker"], size=5.8, align="center")
         conductor_size, metal = _conductor_parts(values["conductor"], conductor_type)
         conductor_label = " ".join(part for part in [conductor_size, metal] if part)
