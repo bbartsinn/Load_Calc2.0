@@ -40,7 +40,32 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(payload["units"][0]["above_ground_m2"], 90)
         self.assertEqual(payload["units"][0]["below_ground_m2"], 100)
         self.assertEqual(payload["units"][0]["area_m2"], 165)
-        self.assertAlmostEqual(payload["units"][0]["breakdown"][0]["demand_watts"], 5833.333333333333)
+        self.assertEqual(payload["units"][0]["breakdown"][0]["demand_watts"], 6000)
+
+    def test_basic_area_uses_started_90_m2_blocks(self):
+        cases = [
+            (90, 5000),
+            (91, 6000),
+            (120, 6000),
+            (150, 6000),
+            (180, 6000),
+            (181, 7000),
+            (200, 7000),
+        ]
+
+        for area_m2, expected_watts in cases:
+            with self.subTest(area_m2=area_m2):
+                response = self.client.post("/api/calculate", json={
+                    "conductor_type": "Copper",
+                    "units": [{
+                        "unit_type": "SFD",
+                        "area_m2": area_m2,
+                    }],
+                })
+
+                self.assertEqual(response.status_code, 200)
+                payload = response.get_json()
+                self.assertEqual(payload["units"][0]["breakdown"][0]["demand_watts"], expected_watts)
 
     def test_calculate_shows_area_summary_watts(self):
         response = self.client.post("/api/calculate", json={
@@ -58,8 +83,8 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(summary["below_ground_m2"], 90)
         self.assertEqual(summary["below_ground_counted_m2"], 67.5)
         self.assertEqual(summary["above_ground_watts"], 5000)
-        self.assertEqual(summary["below_ground_watts"], 750)
-        self.assertEqual(summary["basic_area_watts"], 5750)
+        self.assertEqual(summary["below_ground_watts"], 1000)
+        self.assertEqual(summary["basic_area_watts"], 6000)
 
     def test_service_keeps_tankless_steamer_pool_and_ev_at_100_percent(self):
         response = self.client.post("/api/calculate", json={

@@ -87,9 +87,15 @@ class CalculationEngineTest(unittest.TestCase):
 
         self.assertEqual(summary["effective_area_m2"], 157.5)
         self.assertEqual(summary["above_ground_watts"], 5000)
-        self.assertEqual(summary["below_ground_watts"], 750)
-        self.assertEqual(summary["basic_area_watts"], 5750)
-        self.assertEqual(basic_load(157.5), 5750)
+        self.assertEqual(summary["below_ground_watts"], 1000)
+        self.assertEqual(summary["basic_area_watts"], 6000)
+        self.assertEqual(basic_load(157.5), 6000)
+
+    def test_basic_load_charges_each_started_additional_90_m2_block(self):
+        self.assertEqual(basic_load(90), 5000)
+        self.assertEqual(basic_load(120), 6000)
+        self.assertEqual(basic_load(180), 6000)
+        self.assertEqual(basic_load(200), 7000)
 
     def test_non_hvac_nameplate_watts_are_not_rounded(self):
         result = calculate_unit_loads({"unit_type": "SFD", "pool_hot_tub_watts": 5760}, "Copper")

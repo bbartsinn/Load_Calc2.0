@@ -1,5 +1,7 @@
 # calculation_engine.py
 
+import math
+
 BELOW_GROUND_AREA_FACTOR = 0.75
 
 
@@ -15,7 +17,7 @@ def basic_load(area_m2):
     if area_m2 <= 90:
         return 5000
     additional_area = area_m2 - 90
-    return 5000 + (1000 * (additional_area / 90))
+    return 5000 + (1000 * math.ceil(additional_area / 90))
 
 
 def area_load_summary(above_ground_m2=0, below_ground_m2=0, fallback_area_m2=0):
