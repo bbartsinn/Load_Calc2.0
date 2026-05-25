@@ -65,9 +65,9 @@ def _build_overlay(input_data, result_data):
         "ev": 423,
         "additional": 397,
         "minimum": 355,
-        "total": 329,
-        "breaker": 314,
-        "conductor": 314,
+        "total": 328,
+        "breaker": 321,
+        "conductor": 321,
     }
 
     for unit, x in UNIT_X.items():
@@ -87,11 +87,11 @@ def _build_overlay(input_data, result_data):
         ]:
             _draw_text(c, x, row_y[key], _fmt_watts(values[key]), size=7.2, align="center")
         _draw_text(c, x, row_y["minimum"], values["minimum"], size=7.2, align="center")
-        _draw_text(c, x, row_y["total"], _fmt_watts(values["total"]), size=9, align="center", bold=True)
-        _draw_text(c, BREAKER_X[unit], row_y["breaker"], values["breaker"].replace("A", ""), size=5.1, align="center")
+        _draw_text(c, x, row_y["total"], _fmt_watts(values["total"]), size=7.2, align="center", bold=True)
+        _draw_text(c, BREAKER_X[unit], row_y["breaker"], values["breaker"], size=5.8, align="center")
         conductor_size, metal = _conductor_parts(values["conductor"], conductor_type)
         conductor_label = " ".join(part for part in [conductor_size, metal] if part)
-        _draw_text(c, CONDUCTOR_X[unit], row_y["conductor"], conductor_label, size=3.3, align="center")
+        _draw_text(c, CONDUCTOR_X[unit], row_y["conductor"], conductor_label, size=4.6, align="center")
 
     demand_by_unit = _service_demand_by_unit(result_data)
     secondary_garden_demand = demand_by_unit.get("SS", 0) + demand_by_unit.get("LWH", 0)
