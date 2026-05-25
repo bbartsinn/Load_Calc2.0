@@ -26,6 +26,18 @@ UNIT_X = {
     "LWH": 437,
 }
 
+BREAKER_X = {
+    "SFD": 292,
+    "SS": 356,
+    "LWH": 421,
+}
+
+CONDUCTOR_X = {
+    "SFD": 324,
+    "SS": 388,
+    "LWH": 453,
+}
+
 
 def _build_overlay(input_data, result_data):
     buffer = BytesIO()
@@ -52,17 +64,17 @@ def _build_overlay(input_data, result_data):
         "water_heaters": 425,
         "ev": 399,
         "additional": 367,
-        "minimum": 347,
+        "minimum": 355,
         "total": 326,
-        "breaker": 304,
-        "conductor": 304,
+        "breaker": 318,
+        "conductor": 318,
     }
 
     for unit, x in UNIT_X.items():
         if unit not in result_units:
             continue
         values = _unit_component_values(input_units.get(unit, {}), result_units[unit])
-        _draw_text(c, x, row_y["area_m2"], _fmt_number(values["area_m2"], decimals=1), size=8, align="center")
+        _draw_text(c, x, row_y["area_m2"], _fmt_number(values["area_m2"], decimals=1), size=7.2, align="center")
         for key in [
             "basic_first_90",
             "basic_additional",
@@ -73,13 +85,13 @@ def _build_overlay(input_data, result_data):
             "ev",
             "additional",
         ]:
-            _draw_text(c, x, row_y[key], _fmt_watts(values[key]), size=8, align="center")
-        _draw_text(c, x, row_y["minimum"], values["minimum"], size=8, align="center")
+            _draw_text(c, x, row_y[key], _fmt_watts(values[key]), size=7.2, align="center")
+        _draw_text(c, x, row_y["minimum"], values["minimum"], size=7.2, align="center")
         _draw_text(c, x, row_y["total"], _fmt_watts(values["total"]), size=9, align="center", bold=True)
-        _draw_text(c, x - 26, row_y["breaker"], values["breaker"].replace("A", ""), size=7.5, align="center")
+        _draw_text(c, BREAKER_X[unit], row_y["breaker"], values["breaker"].replace("A", ""), size=6.8, align="center")
         conductor_size, metal = _conductor_parts(values["conductor"], conductor_type)
         conductor_label = " ".join(part for part in [conductor_size, metal] if part)
-        _draw_text(c, x + 28, row_y["conductor"], conductor_label, size=5.5, align="center")
+        _draw_text(c, CONDUCTOR_X[unit], row_y["conductor"], conductor_label, size=4.4, align="center")
 
     demand_by_unit = _service_demand_by_unit(result_data)
     secondary_garden_demand = demand_by_unit.get("SS", 0) + demand_by_unit.get("LWH", 0)
@@ -95,9 +107,9 @@ def _build_overlay(input_data, result_data):
         conductor_type,
     )
     service_conductor_label = " ".join(part for part in [service_conductor_size, service_metal] if part)
-    _draw_text(c, 339, 175, _fmt_watts(result_data.get("Total Calculated Load (Watts)", 0)), size=10, bold=True)
-    _draw_text(c, 405, 175, _fmt_amps(result_data.get("Total Amps", 0)), size=10, bold=True)
-    _draw_text(c, 450, 176, service_conductor_label, size=6, align="left")
+    _draw_text(c, 339, 177, _fmt_watts(result_data.get("Total Calculated Load (Watts)", 0)), size=9.5, bold=True)
+    _draw_text(c, 405, 177, _fmt_amps(result_data.get("Total Amps", 0)), size=9.5, bold=True)
+    _draw_text(c, 450, 178, service_conductor_label, size=4.8, align="left")
 
     c.showPage()
     c.save()
