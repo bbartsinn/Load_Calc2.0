@@ -25,21 +25,51 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(payload["units"][0]["unit_type"], "SFD")
         self.assertGreater(payload["Total Amps"], 0)
 
-    def test_calculate_accepts_split_area_inputs(self):
+    def test_calculate_counts_below_ground_area_at_75_percent(self):
         response = self.client.post("/api/calculate", json={
             "conductor_type": "Copper",
             "units": [{
                 "unit_type": "SFD",
                 "above_ground_m2": 90,
-                "below_ground_m2": 45,
+                "below_ground_m2": 100,
             }],
         })
 
         self.assertEqual(response.status_code, 200)
         payload = response.get_json()
         self.assertEqual(payload["units"][0]["above_ground_m2"], 90)
-        self.assertEqual(payload["units"][0]["below_ground_m2"], 45)
-        self.assertEqual(payload["units"][0]["area_m2"], 135)
+        self.assertEqual(payload["units"][0]["below_ground_m2"], 100)
+        self.assertEqual(payload["units"][0]["area_m2"], 165)
+        self.assertEqual(payload["units"][0]["breakdown"][0]["demand_watts"], 6000)
+
+    def test_service_keeps_tankless_steamer_pool_and_ev_at_100_percent(self):
+        response = self.client.post("/api/calculate", json={
+            "conductor_type": "Copper",
+            "units": [
+                {
+                    "unit_type": "SFD",
+                    "area_m2": 90,
+                    "tankless_watts": 2000,
+                    "steamer_watts": 2000,
+                    "pool_hot_tub_watts": 2000,
+                    "ev_charging_watts": 2000,
+                },
+                {
+                    "unit_type": "SS",
+                    "area_m2": 90,
+                    "tankless_watts": 2000,
+                    "steamer_watts": 2000,
+                    "pool_hot_tub_watts": 2000,
+                    "ev_charging_watts": 2000,
+                },
+            ],
+        })
+
+        self.assertEqual(response.status_code, 200)
+        payload = response.get_json()
+        self.assertEqual(payload["Basic Demand Load (Watts)"], 8250)
+        self.assertEqual(payload["100% Towards Demand Load (Watts)"], 16000)
+        self.assertEqual(payload["Total Calculated Load (Watts)"], 24250)
 
     def test_calculate_preserves_exact_watt_inputs(self):
         response = self.client.post("/api/calculate", json={

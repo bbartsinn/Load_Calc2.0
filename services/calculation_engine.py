@@ -1,5 +1,14 @@
 # calculation_engine.py
 
+BELOW_GROUND_AREA_FACTOR = 0.75
+
+
+def effective_living_area(above_ground_m2=0, below_ground_m2=0, fallback_area_m2=0):
+    if above_ground_m2 or below_ground_m2:
+        return above_ground_m2 + (below_ground_m2 * BELOW_GROUND_AREA_FACTOR)
+    return fallback_area_m2
+
+
 def basic_load(area_m2):
     if area_m2 <= 0:
         return 0
@@ -230,18 +239,17 @@ def total_load_no_hvac(
     pool_hot_tub_watts=0,
     ev_charging_watts=0
 ):
-    # No HVAC means we do not count space heating or AC here.
-    # But tankless, steamer, pool/hot tub/spa water heaters, and EV are still
-    # included at 100%.
-    if (area_m2 <= 0 and range_watts <= 0 and additional_load <= 0 and
-        tankless_watts <= 0 and steamer_watts <= 0 and pool_hot_tub_watts <=0 and ev_charging_watts <=0):
+    # BASIC demand is the portion that can be demand-factored at the service.
+    # Loads that must always stay at 100% are intentionally excluded here and
+    # added back after the BASIC demand calculation.
+    if area_m2 <= 0 and range_watts <= 0 and additional_load <= 0:
         return 0
 
     base = basic_load(area_m2)
     range_load = electric_range_load(range_watts)
     additional = additional_loads(additional_load, has_range=(range_watts > 0))
 
-    return base + range_load + additional + tankless_watts + steamer_watts + pool_hot_tub_watts + ev_charging_watts
+    return base + range_load + additional
 
 def combined_load(units):
     """
@@ -358,9 +366,13 @@ def select_ocp(amps, area_m2):
 
 def calculate_unit_loads(data, conductor_type="Copper"):
     unit_type = data.get("unit_type", "Unit")
-    area_m2 = data.get("area_m2", 0)
     above_ground_m2 = data.get("above_ground_m2", 0)
     below_ground_m2 = data.get("below_ground_m2", 0)
+    area_m2 = effective_living_area(
+        above_ground_m2,
+        below_ground_m2,
+        data.get("area_m2", 0)
+    )
 
     # Interlocked scenario
     interlocked = data.get("heating_cooling_interlocked", False)

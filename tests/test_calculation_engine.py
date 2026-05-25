@@ -6,9 +6,11 @@ from services.calculation_engine import (
     calculate_unit_loads,
     combined_load,
     electric_range_load,
+    effective_living_area,
     select_conductor_size,
     select_ocp,
     total_load,
+    total_load_no_hvac,
 )
 
 
@@ -62,6 +64,21 @@ class CalculationEngineTest(unittest.TestCase):
         load = total_load(area_m2=0, pool_hot_tub_watts=7500)
 
         self.assertEqual(load, 7500)
+
+    def test_100_percent_loads_are_excluded_from_basic_demand_bucket(self):
+        self.assertEqual(
+            total_load_no_hvac(
+                area_m2=90,
+                tankless_watts=2000,
+                steamer_watts=2000,
+                pool_hot_tub_watts=2000,
+                ev_charging_watts=2000,
+            ),
+            5000,
+        )
+
+    def test_below_ground_area_counts_at_75_percent(self):
+        self.assertEqual(effective_living_area(above_ground_m2=90, below_ground_m2=100), 165)
 
     def test_non_hvac_nameplate_watts_are_not_rounded(self):
         result = calculate_unit_loads({"unit_type": "SFD", "pool_hot_tub_watts": 5760}, "Copper")

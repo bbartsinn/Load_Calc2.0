@@ -14,6 +14,8 @@ const LOAD_FIELDS = [
   ["ev_charging_watts", "EV charging", "EVSE load in watts"],
 ];
 
+const BELOW_GROUND_AREA_FACTOR = 0.75;
+
 let lastCalculationInput = null;
 let lastCalculationResult = null;
 
@@ -68,7 +70,7 @@ function unitCard(unit) {
           <input type="number" min="0" step="0.1" inputmode="decimal" name="above_ground_m2_${unit}" placeholder="m2">
         </label>
         <label class="input-field">
-          <span>Below ground m2</span>
+          <span>Below ground m2 (75% counted)</span>
           <input type="number" min="0" step="0.1" inputmode="decimal" name="below_ground_m2_${unit}" placeholder="m2">
         </label>
       </div>
@@ -161,7 +163,7 @@ function collectFormData(options = {}) {
       additional_items: additionalItems,
       additional_load: additionalItems.reduce((sum, item) => sum + item.watts, 0),
     };
-    unitData.area_m2 = unitData.above_ground_m2 + unitData.below_ground_m2;
+    unitData.area_m2 = unitData.above_ground_m2 + (unitData.below_ground_m2 * BELOW_GROUND_AREA_FACTOR);
 
     LOAD_FIELDS.forEach(([key]) => {
       unitData[key] = parseNumber($(`[name="${key}_${unit}"]`, card));

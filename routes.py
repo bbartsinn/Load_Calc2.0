@@ -10,7 +10,8 @@ from html import escape
 from services.calculation_engine import (
     calculate_unit_loads,
     combined_load,
-    calculate_service_parameters
+    calculate_service_parameters,
+    effective_living_area
 )
 from services.email_template import build_branded_email
 from services.pdf_generator import build_calculation_pdf
@@ -52,7 +53,7 @@ def normalize_calculation_input(data):
         below_ground_m2 = _number(unit.get("below_ground_m2"), f"Unit {index} below_ground_m2")
         area_m2 = _number(unit.get("area_m2"), f"Unit {index} area_m2")
         if above_ground_m2 or below_ground_m2:
-            area_m2 = above_ground_m2 + below_ground_m2
+            area_m2 = effective_living_area(above_ground_m2, below_ground_m2, area_m2)
         units.append({
             "unit_type": str(unit.get("unit_type") or f"Unit {index}")[:40],
             "above_ground_m2": above_ground_m2,
