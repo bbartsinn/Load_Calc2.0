@@ -205,11 +205,16 @@ def calculate():
 
 @api.route('/city_form_pdf', methods=['POST'])
 def city_form_pdf():
-    data = request.get_json() or {}
-    input_data = data.get('inputData') or data
-    form_type = str(data.get('formType') or input_data.get("project", {}).get("city_form_type") or "calgary").lower()
-
     try:
+        if request.is_json:
+            data = request.get_json(silent=True) or {}
+        else:
+            payload = request.form.get("payload")
+            data = json.loads(payload) if payload else request.form.to_dict()
+
+        input_data = data.get('inputData') or data
+        form_type = str(data.get('formType') or input_data.get("project", {}).get("city_form_type") or "calgary").lower()
+
         if form_type not in VALID_CITY_FORMS:
             raise ValueError("formType must be calgary or edmonton")
         normalized_input = normalize_calculation_input(input_data)

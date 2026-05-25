@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 from pypdf import PdfReader
 from io import BytesIO
+import json
 
 from app import app
 
@@ -180,6 +181,24 @@ class ApiTest(unittest.TestCase):
         self.assertIn("123 Main St", text)
         self.assertIn("Basement Suite", text)
         self.assertIn("Garden Suite", text)
+
+    def test_city_form_pdf_accepts_mobile_form_post_payload(self):
+        response = self.client.post("/api/city_form_pdf", data={
+            "payload": json.dumps({
+                "formType": "edmonton",
+                "inputData": {
+                    "conductor_type": "Copper",
+                    "project": {"sfd_address": "123 Main St"},
+                    "units": [{"unit_type": "SFD", "area_m2": 90}],
+                },
+            }),
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content_type, "application/pdf")
+        self.assertIn("attachment", response.headers["Content-Disposition"])
+        self.assertIn("City-of-Edmonton-load-calculation.pdf", response.headers["Content-Disposition"])
+        self.assertTrue(response.data.startswith(b"%PDF"))
 
     def test_city_form_pdf_rejects_unknown_form_type(self):
         response = self.client.post("/api/city_form_pdf", json={

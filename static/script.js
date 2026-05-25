@@ -390,52 +390,32 @@ async function sendCalculationEmail() {
   }
 }
 
-async function downloadCityFormPdf() {
+function downloadCityFormPdf() {
   if (!lastCalculationInput || !lastCalculationResult) {
     window.alert("Calculate first, then download the City form PDF.");
     return;
   }
 
-  const button = $("#cityFormButton");
-  button.disabled = true;
-  button.textContent = "Building PDF...";
-  try {
-    const response = await fetch("/api/city_form_pdf", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        formType: lastCalculationInput.project?.city_form_type || selectedCityFormType(),
-        inputData: lastCalculationInput,
-        resultData: lastCalculationResult,
-      }),
-    });
-    if (!response.ok) {
-      let message = "City form PDF failed.";
-      try {
-        const payload = await response.json();
-        message = payload.message || message;
-      } catch {
-        // Response was not JSON.
-      }
-      throw new Error(message);
-    }
+  const formType = lastCalculationInput.project?.city_form_type || selectedCityFormType();
+  const form = document.createElement("form");
+  const payloadInput = document.createElement("input");
 
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    const formType = lastCalculationInput.project?.city_form_type || selectedCityFormType();
-    link.href = url;
-    link.download = formType === "edmonton" ? "City-of-Edmonton-load-calculation.pdf" : "City-of-Calgary-load-calculation.pdf";
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-    URL.revokeObjectURL(url);
-  } catch (error) {
-    window.alert(error.message);
-  } finally {
-    button.disabled = false;
-    button.textContent = "Download city form PDF";
-  }
+  form.method = "POST";
+  form.action = "/api/city_form_pdf";
+  form.target = "_blank";
+  form.style.display = "none";
+
+  payloadInput.type = "hidden";
+  payloadInput.name = "payload";
+  payloadInput.value = JSON.stringify({
+    formType,
+    inputData: lastCalculationInput,
+  });
+
+  form.appendChild(payloadInput);
+  document.body.appendChild(form);
+  form.submit();
+  setTimeout(() => form.remove(), 1000);
 }
 
 function resetCalculator() {
