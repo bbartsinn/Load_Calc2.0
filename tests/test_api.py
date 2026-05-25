@@ -105,6 +105,26 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(payload["units"][0]["breakdown"][0]["nameplate_watts"], 5730)
         self.assertEqual(payload["units"][0]["breakdown"][0]["demand_watts"], 5730)
 
+    def test_city_form_pdf_generates_official_pdf(self):
+        response = self.client.post("/api/city_form_pdf", json={
+            "conductor_type": "Copper",
+            "project": {
+                "sfd_address": "123 Main St",
+                "ss_address": "Basement Suite",
+            },
+            "units": [{
+                "unit_type": "SFD",
+                "above_ground_m2": 90,
+                "below_ground_m2": 90,
+                "range_watts": 6000,
+            }],
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.content_type, "application/pdf")
+        self.assertGreater(len(response.data), 100000)
+        self.assertTrue(response.data.startswith(b"%PDF"))
+
     def test_calculate_rejects_invalid_conductor(self):
         response = self.client.post("/api/calculate", json={
             "conductor_type": "Steel",

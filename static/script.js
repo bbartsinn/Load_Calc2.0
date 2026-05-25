@@ -181,6 +181,11 @@ function collectFormData(options = {}) {
   return {
     num_units: units.length,
     conductor_type: $("[name='conductorType']:checked").value,
+    project: {
+      sfd_address: $("[name='sfdAddress']")?.value.trim() || "",
+      ss_address: $("[name='ssAddress']")?.value.trim() || "",
+      lwh_address: $("[name='lwhAddress']")?.value.trim() || "",
+    },
     units,
   };
 }
@@ -218,6 +223,7 @@ function renderResults(data) {
   }
 
   $("#reviewButton").disabled = false;
+  $("#cityFormButton").disabled = false;
 }
 
 function renderAreaSummary(summary) {
@@ -341,6 +347,52 @@ async function sendCalculationEmail() {
   }
 }
 
+async function downloadCityFormPdf() {
+  if (!lastCalculationInput || !lastCalculationResult) {
+    window.alert("Calculate first, then download the City form PDF.");
+    return;
+  }
+
+  const button = $("#cityFormButton");
+  button.disabled = true;
+  button.textContent = "Building PDF...";
+  try {
+    const response = await fetch("/api/city_form_pdf", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        inputData: lastCalculationInput,
+        resultData: lastCalculationResult,
+      }),
+    });
+    if (!response.ok) {
+      let message = "City form PDF failed.";
+      try {
+        const payload = await response.json();
+        message = payload.message || message;
+      } catch {
+        // Response was not JSON.
+      }
+      throw new Error(message);
+    }
+
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "City-of-Calgary-load-calculation.pdf";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  } catch (error) {
+    window.alert(error.message);
+  } finally {
+    button.disabled = false;
+    button.textContent = "City form PDF";
+  }
+}
+
 function resetCalculator() {
   localStorage.removeItem("lastCalculationInput");
   localStorage.removeItem("lastCalculationResult");
@@ -385,6 +437,7 @@ document.addEventListener("DOMContentLoaded", () => {
   $$(".unit-toggle").forEach((input) => input.addEventListener("change", renderUnits));
   $("#loadCalcForm").addEventListener("submit", calculateLoad);
   $("#emailButton").addEventListener("click", sendCalculationEmail);
+  $("#cityFormButton").addEventListener("click", downloadCityFormPdf);
   $("#reviewButton").addEventListener("click", () => { window.location.href = "/api/review_form"; });
   $("#resetButton").addEventListener("click", resetCalculator);
   renderUnits();

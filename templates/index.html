@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>City of Calgary Digital Load Calculator</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=20260525-1325">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=20260525-1352">
 </head>
 <body>
   <div class="disclaimer-modal hidden" id="disclaimerModal" role="dialog" aria-modal="true" aria-labelledby="disclaimerTitle">
@@ -71,8 +71,25 @@
             </div>
           </div>
 
+          <div class="panel-section city-form-fields">
+            <p class="field-label">City form addresses</p>
+            <label>
+              <span>SFD address</span>
+              <input type="text" name="sfdAddress" placeholder="Single family dwelling address">
+            </label>
+            <label>
+              <span>Secondary suite address</span>
+              <input type="text" name="ssAddress" placeholder="Secondary suite address">
+            </label>
+            <label>
+              <span>Laneway / backyard suite address</span>
+              <input type="text" name="lwhAddress" placeholder="Laneway/backyard suite address">
+            </label>
+          </div>
+
           <div class="panel-section quick-actions">
             <button type="submit" class="primary-action">Calculate</button>
+            <button type="button" id="cityFormButton" class="secondary-action" disabled>City form PDF</button>
             <button type="button" id="reviewButton" class="secondary-action" disabled>Request review</button>
             <button type="button" id="emailButton" class="secondary-action">Email PDF</button>
           </div>
@@ -136,6 +153,6 @@
     <a href="mailto:Bart@Realworldelectric.com">Bart@Realworldelectric.com</a>
   </footer>
 
-  <script src="{{ url_for('static', filename='script.js') }}?v=20260525-1325"></script>
+  <script src="{{ url_for('static', filename='script.js') }}?v=20260525-1352"></script>
 </body>
 </html>

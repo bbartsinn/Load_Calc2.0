@@ -1,5 +1,6 @@
 # routes.py
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, request, jsonify, render_template, send_file
+from io import BytesIO
 import requests
 import os
 import json
@@ -15,6 +16,7 @@ from services.calculation_engine import (
 )
 from services.email_template import build_branded_email
 from services.pdf_generator import build_calculation_pdf
+from services.calgary_form_pdf import build_city_of_calgary_form_pdf
 
 api = Blueprint('api', __name__)
 logger = logging.getLogger(__name__)
@@ -71,9 +73,18 @@ def normalize_calculation_input(data):
             "additional_items": unit.get("additional_items", []),
         })
 
+    project = data.get("project", {})
+    if not isinstance(project, dict):
+        project = {}
+
     return {
         "num_units": len(units),
         "conductor_type": conductor_type,
+        "project": {
+            "sfd_address": str(project.get("sfd_address") or "")[:160],
+            "ss_address": str(project.get("ss_address") or "")[:160],
+            "lwh_address": str(project.get("lwh_address") or "")[:160],
+        },
         "units": units,
     }
 
@@ -183,6 +194,29 @@ def calculate():
     except Exception as e:
         logger.exception("Calculation failed")
         return jsonify({"error": "Calculation failed. Please check your inputs and try again."}), 500
+
+
+@api.route('/city_form_pdf', methods=['POST'])
+def city_form_pdf():
+    data = request.get_json() or {}
+    input_data = data.get('inputData') or data
+
+    try:
+        normalized_input = normalize_calculation_input(input_data)
+        result_data = run_calculation(normalized_input)
+        pdf_bytes = build_city_of_calgary_form_pdf(normalized_input, result_data)
+    except ValueError as e:
+        return jsonify({"success": False, "message": str(e)}), 400
+    except Exception as e:
+        logger.exception("City of Calgary PDF generation failed")
+        return jsonify({"success": False, "message": "City of Calgary PDF generation failed."}), 500
+
+    return send_file(
+        BytesIO(pdf_bytes),
+        mimetype="application/pdf",
+        as_attachment=True,
+        download_name="City-of-Calgary-load-calculation.pdf",
+    )
 
 # -------------------------------------------------------
 # /send_calculation_email - Sends calculation email with PDF attachment via Mailgun
