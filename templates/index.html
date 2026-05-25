@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>City of Calgary Digital Load Calculator</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=20260525-1352">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=20260525-1532">
 </head>
 <body>
   <div class="disclaimer-modal hidden" id="disclaimerModal" role="dialog" aria-modal="true" aria-labelledby="disclaimerTitle">
@@ -72,18 +72,30 @@
           </div>
 
           <div class="panel-section city-form-fields">
-            <p class="field-label">City form addresses</p>
+            <p class="field-label">City form details</p>
             <label>
               <span>SFD address</span>
               <input type="text" name="sfdAddress" placeholder="Single family dwelling address">
             </label>
             <label>
+              <span>SFD permit EP</span>
+              <input type="text" name="sfdEp" placeholder="SFD electrical permit number">
+            </label>
+            <label class="city-unit-field" data-city-unit="SS">
               <span>Secondary suite address</span>
               <input type="text" name="ssAddress" placeholder="Secondary suite address">
             </label>
-            <label>
+            <label class="city-unit-field" data-city-unit="SS">
+              <span>Secondary suite permit EP</span>
+              <input type="text" name="ssEp" placeholder="Secondary suite permit number">
+            </label>
+            <label class="city-unit-field" data-city-unit="LWH">
               <span>Laneway / backyard suite address</span>
               <input type="text" name="lwhAddress" placeholder="Laneway/backyard suite address">
+            </label>
+            <label class="city-unit-field" data-city-unit="LWH">
+              <span>Laneway / backyard suite permit EP</span>
+              <input type="text" name="lwhEp" placeholder="Laneway/backyard permit number">
             </label>
           </div>
 
@@ -153,6 +165,6 @@
     <a href="mailto:Bart@Realworldelectric.com">Bart@Realworldelectric.com</a>
   </footer>
 
-  <script src="{{ url_for('static', filename='script.js') }}?v=20260525-1352"></script>
+  <script src="{{ url_for('static', filename='script.js') }}?v=20260525-1532"></script>
 </body>
 </html>

@@ -113,11 +113,24 @@ function selectedUnits() {
   return $$(".unit-toggle:checked").map((input) => input.value);
 }
 
+function updateCityFormFields() {
+  const units = selectedUnits();
+  $$(".city-unit-field").forEach((field) => {
+    const isActive = units.includes(field.dataset.cityUnit);
+    field.classList.toggle("hidden", !isActive);
+    $$("input", field).forEach((input) => {
+      input.disabled = !isActive;
+      if (!isActive) input.value = "";
+    });
+  });
+}
+
 function renderUnits() {
   const container = $("#unitsContainer");
   const units = selectedUnits();
   const existingValues = collectFormData({ includeEmpty: true });
 
+  updateCityFormFields();
   container.innerHTML = units.map(unitCard).join("");
   units.forEach((unit) => {
     const card = $(`.unit-card[data-unit="${unit}"]`);
@@ -148,7 +161,8 @@ function restoreUnitValues(card, data) {
 }
 
 function collectFormData(options = {}) {
-  const units = selectedUnits().map((unit) => {
+  const activeUnits = selectedUnits();
+  const units = activeUnits.map((unit) => {
     const card = $(`.unit-card[data-unit="${unit}"]`);
     if (!card) {
       return { unit_type: unit, additional_items: [] };
@@ -183,8 +197,11 @@ function collectFormData(options = {}) {
     conductor_type: $("[name='conductorType']:checked").value,
     project: {
       sfd_address: $("[name='sfdAddress']")?.value.trim() || "",
-      ss_address: $("[name='ssAddress']")?.value.trim() || "",
-      lwh_address: $("[name='lwhAddress']")?.value.trim() || "",
+      sfd_ep: $("[name='sfdEp']")?.value.trim() || "",
+      ss_address: activeUnits.includes("SS") ? ($("[name='ssAddress']")?.value.trim() || "") : "",
+      ss_ep: activeUnits.includes("SS") ? ($("[name='ssEp']")?.value.trim() || "") : "",
+      lwh_address: activeUnits.includes("LWH") ? ($("[name='lwhAddress']")?.value.trim() || "") : "",
+      lwh_ep: activeUnits.includes("LWH") ? ($("[name='lwhEp']")?.value.trim() || "") : "",
     },
     units,
   };

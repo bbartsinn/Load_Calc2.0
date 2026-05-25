@@ -135,7 +135,9 @@ class ApiTest(unittest.TestCase):
             "conductor_type": "Copper",
             "project": {
                 "sfd_address": "123 Main St",
+                "sfd_ep": "EP-SFD-1",
                 "ss_address": "Basement Suite",
+                "ss_ep": "EP-SS-1",
             },
             "units": [{
                 "unit_type": "SFD",
@@ -149,6 +151,28 @@ class ApiTest(unittest.TestCase):
         self.assertEqual(response.content_type, "application/pdf")
         self.assertGreater(len(response.data), 100000)
         self.assertTrue(response.data.startswith(b"%PDF"))
+
+    def test_city_form_project_fields_follow_selected_units(self):
+        from routes import normalize_calculation_input
+
+        normalized = normalize_calculation_input({
+            "conductor_type": "Copper",
+            "project": {
+                "sfd_address": "123 Main St",
+                "sfd_ep": "EP-SFD-1",
+                "ss_address": "Should be dropped",
+                "ss_ep": "EP-SS-DROP",
+                "lwh_address": "Lane House",
+                "lwh_ep": "EP-LWH-1",
+            },
+            "units": [{"unit_type": "LWH", "area_m2": 90}],
+        })
+
+        self.assertEqual(normalized["project"]["sfd_ep"], "EP-SFD-1")
+        self.assertEqual(normalized["project"]["ss_address"], "")
+        self.assertEqual(normalized["project"]["ss_ep"], "")
+        self.assertEqual(normalized["project"]["lwh_address"], "Lane House")
+        self.assertEqual(normalized["project"]["lwh_ep"], "EP-LWH-1")
 
     def test_calculate_rejects_invalid_conductor(self):
         response = self.client.post("/api/calculate", json={

@@ -83,6 +83,16 @@ def _draw_address(c, x, y, text, width=240, align="center"):
         c.drawString(x, y, value[:72])
 
 
+def _selected_suite_ep(project, input_units):
+    unit_types = {unit.get("unit_type") for unit in input_units or []}
+    values = []
+    if "SS" in unit_types and project.get("ss_ep"):
+        values.append(str(project.get("ss_ep")).strip())
+    if "LWH" in unit_types and project.get("lwh_ep"):
+        values.append(str(project.get("lwh_ep")).strip())
+    return " / ".join(values)
+
+
 def _unit_component_values(input_unit, result_unit):
     area_watts = result_unit.get("area_summary", {}).get("basic_area_watts", 0)
     first_area = 5000 if _num(result_unit.get("area_m2")) > 0 else 0
@@ -127,9 +137,16 @@ def _build_overlay(input_data, result_data):
     c = canvas.Canvas(buffer, pagesize=(612, 792))
 
     project = input_data.get("project", {})
+    input_units_list = input_data.get("units", [])
+    input_unit_types = {unit.get("unit_type") for unit in input_units_list}
+
+    _draw_text(c, 486, 720, str(project.get("sfd_ep") or "")[:42], size=9, align="left", bold=True)
+    _draw_text(c, 486, 697, _selected_suite_ep(project, input_units_list)[:42], size=9, align="left", bold=True)
     _draw_address(c, 275, 607, project.get("sfd_address"), align="left")
-    _draw_address(c, 176, 568, project.get("ss_address"))
-    _draw_address(c, 468, 568, project.get("lwh_address"))
+    if "SS" in input_unit_types:
+        _draw_address(c, 176, 568, project.get("ss_address"))
+    if "LWH" in input_unit_types:
+        _draw_address(c, 468, 568, project.get("lwh_address"))
 
     input_units = _unit_lookup(input_data.get("units"))
     result_units = _unit_lookup(result_data.get("units"))

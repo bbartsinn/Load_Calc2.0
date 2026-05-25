@@ -77,13 +77,18 @@ def normalize_calculation_input(data):
     if not isinstance(project, dict):
         project = {}
 
+    unit_types = {unit["unit_type"] for unit in units}
+
     return {
         "num_units": len(units),
         "conductor_type": conductor_type,
         "project": {
             "sfd_address": str(project.get("sfd_address") or "")[:160],
-            "ss_address": str(project.get("ss_address") or "")[:160],
-            "lwh_address": str(project.get("lwh_address") or "")[:160],
+            "sfd_ep": str(project.get("sfd_ep") or "")[:60],
+            "ss_address": str(project.get("ss_address") or "")[:160] if "SS" in unit_types else "",
+            "ss_ep": str(project.get("ss_ep") or "")[:60] if "SS" in unit_types else "",
+            "lwh_address": str(project.get("lwh_address") or "")[:160] if "LWH" in unit_types else "",
+            "lwh_ep": str(project.get("lwh_ep") or "")[:60] if "LWH" in unit_types else "",
         },
         "units": units,
     }
