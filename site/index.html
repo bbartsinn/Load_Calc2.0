@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free Electrical Load Calculator – Calgary &amp; Edmonton Permit Forms | Real World Electric</title>
+  <meta name="description" content="Free CEC 8-200 electrical load calculator for Alberta. Check if your service can handle a secondary suite, EV charger or hot tub — and auto-fill the official City of Calgary and City of Edmonton load calculation forms.">
+  <link rel="canonical" href="https://realworldelectric.com/">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0c1b2a">
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:site_name" content="Real World Electric — Smart Planning Tools">
+  <meta property="og:title" content="Free Electrical Load Calculator for Calgary &amp; Edmonton Permits">
+  <meta property="og:description" content="Run a CEC 8-200 load calculation in minutes and auto-fill the official City of Calgary or Edmonton load calculation form. Free, built by a Calgary master electrician.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://realworldelectric.com/">
+  <meta property="og:image" content="https://realworldelectric.com/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Real World Electric — free electrical load calculator for Calgary and Edmonton permit forms">
+  <meta property="og:locale" content="en_CA">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Electrical Load Calculator for Calgary &amp; Edmonton Permits">
+  <meta name="twitter:description" content="Run a CEC 8-200 load calculation in minutes and auto-fill the official city load calculation form. Free.">
+  <meta name="twitter:image" content="https://realworldelectric.com/assets/og-image.png">
+
+  <!-- Icons -->
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/rwe-logo.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Electrician",
+        "@id": "https://realworldelectric.com/#business",
+        "name": "Real World Electric",
+        "url": "https://realworldelectric.com/",
+        "logo": "https://realworldelectric.com/assets/rwe-logo.png",
+        "image": "https://realworldelectric.com/assets/og-image.png",
+        "telephone": "+1-403-808-2811",
+        "email": "Bart@Realworldelectric.com",
+        "priceRange": "$$",
+        "address": { "@type": "PostalAddress", "addressLocality": "Calgary", "addressRegion": "AB", "addressCountry": "CA" },
+        "areaServed": [
+          { "@type": "City", "name": "Calgary" },
+          { "@type": "City", "name": "Edmonton" },
+          { "@type": "State", "name": "Alberta" }
+        ],
+        "sameAs": [ "https://facebook.com/realworldelectric" ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://realworldelectric.com/#website",
+        "url": "https://realworldelectric.com/",
+        "name": "Real World Electric — Smart Planning Tools",
+        "publisher": { "@id": "https://realworldelectric.com/#business" }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://realworldelectric.com/#calculator",
+        "name": "Calgary & Edmonton Electrical Load Calculator",
+        "description": "Free residential electrical load calculator using Canadian Electrical Code Rule 8-200 demand factors, with automatic City of Calgary and City of Edmonton load calculation form PDF generation.",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "url": "https://realworldelectric.com/calculator",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "CAD" },
+        "provider": { "@id": "https://realworldelectric.com/#business" }
+      },
+      {
+        "@type": "FAQPage",
+        "@id": "https://realworldelectric.com/#faq",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "When does Calgary or Edmonton require an electrical load calculation?",
+            "acceptedAnswer": { "@type": "Answer", "text": "A load calculation is commonly required when you add a secondary suite, laneway or garden suite, EV charger, hot tub, or other major load, or when you upgrade the electrical service. Calgary asks for its secondary suite load calculation form before the electrical rough-in inspection, and Edmonton has an equivalent load calculation form." }
+          },
+          {
+            "@type": "Question",
+            "name": "Is the electrical load calculator free?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. The calculator is completely free to use, including the automatic City of Calgary and City of Edmonton form PDFs. If you need help interpreting the result or preparing for permit review, Real World Electric offers a master electrician review." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can a 100 amp service handle a secondary suite or EV charger?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Sometimes. It depends on the calculated demand under CEC Rule 8-200. Many homes can add a suite or EV charger on a 100 A service once demand factors are applied, while others need load management or a service upgrade. The calculator shows you where you stand in minutes." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can it fill out the official City of Calgary and City of Edmonton load calculation forms?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. After you run the calculation, the app generates a completed City of Calgary or City of Edmonton load calculation form PDF using your project addresses, dwelling units, calculated watts and amps, breaker size, and conductor size." }
+          },
+          {
+            "@type": "Question",
+            "name": "Does the calculator replace a permit submission?",
+            "acceptedAnswer": { "@type": "Answer", "text": "No. It helps you estimate and document the electrical load before you apply. Permit requirements and final acceptance always depend on the authority having jurisdiction and your specific project." }
+          },
+          {
+            "@type": "Question",
+            "name": "What if my calculated load is above my current service size?",
+            "acceptedAnswer": { "@type": "Answer", "text": "You may need load management (such as an EVEMS for EV charging), revised equipment choices, or a service upgrade. Real World Electric can review the calculation and walk you through the options before you spend money on a permit." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root{
+      --navy:#0c1b2a;
+      --navy-2:#12293f;
+      --navy-3:#1b3a57;
+      --volt:#ffb524;
+      --volt-deep:#f59e0b;
+      --ink:#16222e;
+      --muted:#5b6b7b;
+      --line:#e3e9f0;
+      --bg:#f6f9fc;
+      --card:#ffffff;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(12,27,42,.08);
+      --shadow-lg:0 24px 60px rgba(12,27,42,.16);
+      --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:84px}
+    body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.6;-webkit-font-smoothing:antialiased}
+    img{max-width:100%;display:block}
+    a{color:inherit}
+    .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+    /* ---------- Header ---------- */
+    .site-header{position:sticky;top:0;z-index:50;background:rgba(12,27,42,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.08)}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;height:68px;max-width:1120px;margin:0 auto;padding:0 20px}
+    .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:700;font-size:1.02rem;letter-spacing:.01em}
+    .brand img{height:38px;width:auto}
+    .brand .bolt{color:var(--volt)}
+    .nav-links{display:flex;align-items:center;gap:26px}
+    .nav-links a{color:#cfdae6;text-decoration:none;font-size:.93rem;font-weight:500;transition:color .15s}
+    .nav-links a:hover{color:#fff}
+    .nav-cta{background:var(--volt);color:var(--navy)!important;font-weight:700;padding:10px 18px;border-radius:999px;transition:transform .15s,box-shadow .15s}
+    .nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(255,181,36,.35)}
+    .menu-btn{display:none;background:none;border:0;cursor:pointer;padding:8px}
+    .menu-btn span{display:block;width:22px;height:2px;background:#fff;margin:5px 0;border-radius:2px;transition:.2s}
+
+    /* ---------- Hero ---------- */
+    .hero{background:
+      radial-gradient(1000px 500px at 85% -10%, rgba(255,181,36,.14), transparent 60%),
+      radial-gradient(800px 500px at -10% 110%, rgba(64,145,220,.18), transparent 60%),
+      linear-gradient(160deg,var(--navy) 0%,var(--navy-2) 60%,var(--navy-3) 100%);
+      color:#fff;padding:72px 0 88px;position:relative;overflow:hidden}
+    .hero::before{content:"";position:absolute;inset:0;background-image:
+      linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+      background-size:44px 44px;pointer-events:none}
+    .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;position:relative}
+    .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.8rem;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--volt);margin-bottom:18px}
+    .eyebrow::before{content:"";width:26px;height:2px;background:var(--volt);border-radius:2px}
+    h1{font-size:clamp(2rem,4.6vw,3.15rem);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin-bottom:20px}
+    h1 .hl{color:var(--volt)}
+    .hero-text{font-size:clamp(1rem,1.6vw,1.15rem);color:#c6d3e0;max-width:56ch;margin-bottom:30px}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-bottom:30px}
+    .button{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:700;font-size:1rem;padding:15px 28px;border-radius:12px;transition:transform .15s,box-shadow .15s}
+    .button.primary{background:var(--volt);color:var(--navy);box-shadow:0 8px 24px rgba(255,181,36,.35)}
+    .button.primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(255,181,36,.45)}
+    .button.ghost{border:1.5px solid rgba(255,255,255,.35);color:#fff}
+    .button.ghost:hover{border-color:#fff;transform:translateY(-2px)}
+    .trust-chips{display:flex;flex-wrap:wrap;gap:10px}
+    .trust-chips span{display:inline-flex;align-items:center;gap:7px;font-size:.82rem;font-weight:500;color:#d8e2ec;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);padding:7px 14px;border-radius:999px}
+    .trust-chips svg{flex:none}
+
+    /* result card */
+    .result-card{background:linear-gradient(180deg,#ffffff,#f4f8fc);color:var(--ink);border-radius:22px;padding:30px;box-shadow:var(--shadow-lg);position:relative;transform:rotate(1.2deg)}
+    .result-card::after{content:"";position:absolute;inset:0;border-radius:22px;border:1px solid rgba(12,27,42,.06);pointer-events:none}
+    .card-topline{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+    .live-dot{display:inline-flex;align-items:center;gap:6px;color:#0d8a4f;font-size:.72rem}
+    .live-dot::before{content:"";width:8px;height:8px;border-radius:50%;background:#18b56b;box-shadow:0 0 0 4px rgba(24,181,107,.18)}
+    .amps{font-size:3.4rem;font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--navy)}
+    .amps small{font-size:1.4rem;color:var(--volt-deep);font-weight:700}
+    .amps-label{color:var(--muted);font-size:.9rem;margin:6px 0 20px}
+    .metric-row{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid var(--line);font-size:.94rem}
+    .metric-row span{color:var(--muted)}
+    .metric-row strong{font-weight:700}
+    .card-cta{margin-top:18px;text-align:center;background:var(--navy);color:#fff;text-decoration:none;font-weight:600;font-size:.9rem;padding:12px;border-radius:11px;display:block;transition:background .15s}
+    .card-cta:hover{background:var(--navy-3)}
+
+    /* ---------- Sections ---------- */
+    section{padding:76px 0}
+    .section-head{max-width:640px;margin-bottom:42px}
+    h2{font-size:clamp(1.5rem,3vw,2.1rem);font-weight:800;letter-spacing:-.02em;line-height:1.2;margin-bottom:14px}
+    .section-head p{color:var(--muted);font-size:1.02rem}
+    .eyebrow.dark{color:var(--volt-deep)}
+    .eyebrow.dark::before{background:var(--volt-deep)}
+
+    /* tools hub */
+    .tools{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .tool-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .tool-card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:28px;display:flex;flex-direction:column;gap:12px;transition:transform .18s,box-shadow .18s;position:relative}
+    .tool-card.live{border:2px solid var(--volt);box-shadow:var(--shadow)}
+    .tool-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .tool-icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(140deg,#fff4dd,#ffe6b0);color:var(--volt-deep)}
+    .tool-card.soon .tool-icon{background:#eef2f7;color:var(--muted)}
+    .tool-card h3{font-size:1.12rem;font-weight:700}
+    .tool-card p{color:var(--muted);font-size:.93rem;flex:1}
+    .badge{position:absolute;top:18px;right:18px;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:999px}
+    .badge.live{background:#e5f8ee;color:#0d8a4f}
+    .badge.soon{background:#eef2f7;color:var(--muted)}
+    .tool-link{font-weight:700;font-size:.93rem;color:var(--volt-deep);text-decoration:none}
+    .tool-link:hover{text-decoration:underline}
+
+    /* use cases */
+    .case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    .case-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;transition:transform .18s,box-shadow .18s}
+    .case-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+    .case-card h3{font-size:1.02rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+    .case-card h3 svg{color:var(--volt-deep);flex:none}
+    .case-card p{color:var(--muted);font-size:.9rem}
+
+    /* guides */
+    .guides-sec{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .guide-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+    .guide-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px;text-decoration:none;display:flex;flex-direction:column;gap:10px;transition:transform .18s,box-shadow .18s}
+    .guide-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+    .guide-card h3{font-size:1.08rem;font-weight:700;color:var(--ink)}
+    .guide-card p{color:var(--muted);font-size:.92rem;flex:1}
+    .guide-card .more{font-weight:700;font-size:.9rem;color:var(--volt-deep)}
+
+    /* sign-off banner */
+    .signoff{background:linear-gradient(140deg,#fff8ea,#fff1d6);border:2px solid var(--volt);border-radius:22px;padding:36px 34px;display:grid;grid-template-columns:1.3fr .7fr;gap:34px;align-items:center;box-shadow:var(--shadow)}
+    .signoff h2{margin-bottom:10px}
+    .signoff p{color:#5a4a2a;font-size:1rem}
+    .signoff .price-line{display:flex;flex-wrap:wrap;gap:18px;margin-top:16px}
+    .signoff .price-line span{font-size:.92rem;font-weight:600;color:var(--navy);background:rgba(255,255,255,.75);border:1px solid rgba(245,158,11,.35);padding:8px 14px;border-radius:999px}
+    .button.dark{background:var(--navy);color:#fff}
+    .button.dark:hover{background:var(--navy-3);transform:translateY(-2px)}
+    .button.full{width:100%}
+
+    /* how it works */
+    .how{background:var(--navy);color:#fff}
+    .how h2{color:#fff}
+    .how .section-head p{color:#b9c7d5}
+    .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:48px}
+    .step{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:var(--radius);padding:26px}
+    .step-num{width:38px;height:38px;border-radius:50%;background:var(--volt);color:var(--navy);font-weight:800;display:grid;place-items:center;margin-bottom:16px}
+    .step h3{font-size:1.05rem;margin-bottom:8px}
+    .step p{color:#b9c7d5;font-size:.92rem}
+    .check-cols{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 34px;max-width:820px}
+    .check-cols li{list-style:none;display:flex;gap:11px;align-items:flex-start;color:#dbe5ee;font-size:.95rem;padding:7px 0}
+    .check-cols svg{flex:none;margin-top:4px;color:var(--volt)}
+
+    /* city forms */
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+    .form-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow)}
+    .form-card h3{font-size:1.15rem;font-weight:700;margin-bottom:10px}
+    .form-card>p{color:var(--muted);font-size:.94rem;margin-bottom:16px}
+    .form-card ul{list-style:none}
+    .form-card li{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;color:var(--ink);padding:6px 0}
+    .form-card li svg{flex:none;margin-top:4px;color:var(--volt-deep)}
+    .city-tag{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--volt-deep);background:#fff4dd;padding:5px 12px;border-radius:999px;margin-bottom:14px}
+
+    /* review CTA */
+    .review{background:linear-gradient(140deg,var(--navy-2),var(--navy-3));color:#fff;border-radius:26px;padding:56px 48px;display:grid;grid-template-columns:1.2fr .8fr;gap:44px;align-items:center;box-shadow:var(--shadow-lg)}
+    .review h2{color:#fff}
+    .review p{color:#c6d3e0}
+    .review-actions{display:flex;flex-direction:column;gap:12px}
+    .button.white{background:#fff;color:var(--navy)}
+    .button.white:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(0,0,0,.25)}
+    .button.outline{border:1.5px solid rgba(255,255,255,.4);color:#fff}
+    .button.outline:hover{border-color:#fff}
+
+    /* FAQ */
+    .faq-list{max-width:780px}
+    details{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+    summary{cursor:pointer;font-weight:600;font-size:1rem;padding:19px 52px 19px 22px;list-style:none;position:relative}
+    summary::-webkit-details-marker{display:none}
+    summary::after{content:"+";position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:1.5rem;font-weight:400;color:var(--volt-deep);transition:transform .2s}
+    details[open] summary::after{transform:translateY(-50%) rotate(45deg)}
+    details p{padding:0 22px 20px;color:var(--muted);font-size:.95rem}
+
+    /* footer */
+    footer{background:var(--navy);color:#93a5b7;padding:52px 0 96px}
+    .footer-grid{display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;align-items:flex-start}
+    .footer-brand{color:#fff;font-weight:700;font-size:1.05rem;margin-bottom:8px}
+    .footer-grid a{color:#c6d3e0;text-decoration:none;font-size:.92rem}
+    .footer-grid a:hover{color:#fff}
+    .footer-col{display:flex;flex-direction:column;gap:8px}
+    .footer-note{margin-top:34px;padding-top:22px;border-top:1px solid rgba(255,255,255,.1);font-size:.8rem;color:#6f8296}
+
+    /* sticky mobile CTA */
+    .mobile-cta{display:none;position:fixed;bottom:0;left:0;right:0;z-index:60;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:rgba(12,27,42,.96);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.12)}
+    .mobile-cta a{display:block;text-align:center;background:var(--volt);color:var(--navy);font-weight:800;text-decoration:none;padding:14px;border-radius:12px;font-size:1rem}
+
+    /* ---------- Mobile ---------- */
+    @media (max-width:900px){
+      .hero-grid{grid-template-columns:1fr;gap:44px}
+      .result-card{transform:none;max-width:440px}
+      .tool-grid,.case-grid,.steps{grid-template-columns:1fr 1fr}
+      .form-grid,.review,.signoff{grid-template-columns:1fr}
+      .review{padding:40px 28px}
+      .check-cols{grid-template-columns:1fr}
+    }
+    @media (max-width:640px){
+      .nav-links{display:none;position:absolute;top:68px;left:0;right:0;background:var(--navy);flex-direction:column;align-items:stretch;gap:0;padding:10px 20px 20px;border-bottom:1px solid rgba(255,255,255,.1)}
+      .nav-links.open{display:flex}
+      .nav-links a{padding:13px 4px;font-size:1rem;border-bottom:1px solid rgba(255,255,255,.07)}
+      .nav-links .nav-cta{margin-top:14px;text-align:center;border-bottom:none}
+      .menu-btn{display:block}
+      .hero{padding:52px 0 64px}
+      section{padding:56px 0}
+      .tool-grid,.case-grid,.steps,.guide-grid{grid-template-columns:1fr}
+      .hero-actions .button{width:100%}
+      .mobile-cta{display:block}
+      footer{padding-bottom:120px}
+    }
+  </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K3BF6QGHLL"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-K3BF6QGHLL');</script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Real World Electric home">
+        <img src="assets/rwe-logo.png" alt="Real World Electric logo" width="38" height="38">
+        <span>Real World <span class="bolt">Electric</span></span>
+      </a>
+      <button class="menu-btn" aria-label="Toggle menu" aria-expanded="false" onclick="const n=document.querySelector('.nav-links');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#tools">Tools</a>
+        <a href="/guides/">Guides</a>
+        <a href="/load-calculation-sign-off/">Get signed off</a>
+        <a href="#city-forms">City forms</a>
+        <a href="#faq">FAQ</a>
+        <a class="nav-cta" href="/calculator">Start free calculator</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Free tools for Alberta electricians &amp; homeowners</p>
+          <h1>Free Electrical Load Calculator for <span class="hl">Calgary &amp; Edmonton</span> Permits</h1>
+          <p class="hero-text">Find out in minutes whether your electrical service can handle a secondary suite, EV charger, or hot tub — then auto-fill the official City of Calgary or City of Edmonton load calculation form, ready for your permit.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="/calculator">Start free calculator →</a>
+            <a class="button ghost" href="/load-calculation-sign-off/">Get it signed off by a master electrician</a>
+          </div>
+          <div class="trust-chips">
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>CEC Rule 8-200 demand factors</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Auto-fills official city PDFs</span>
+            <span><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5l-8-3z"/></svg>Built by a Calgary master electrician</span>
+          </div>
+        </div>
+        <aside class="result-card" aria-label="Example calculator output">
+          <div class="card-topline"><span>Example output</span><span class="live-dot">Live tool</span></div>
+          <div class="amps">60.6 <small>A</small></div>
+          <p class="amps-label">calculated service demand · CEC 8-200</p>
+          <div class="metric-row"><span>Service OCP</span><strong>100 A</strong></div>
+          <div class="metric-row"><span>Conductor (75°C)</span><strong>#3 copper</strong></div>
+          <div class="metric-row"><span>Demand breakdown</span><strong>Every rule shown</strong></div>
+          <div class="metric-row"><span>City form PDF</span><strong>Auto-filled ✓</strong></div>
+          <a class="card-cta" href="/calculator">Run your own calculation — free</a>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ SIGN-OFF BANNER ============ -->
+    <section style="padding-top:56px;padding-bottom:0">
+      <div class="wrap">
+        <div class="signoff">
+          <div>
+            <p class="eyebrow dark">Doing the work yourself?</p>
+            <h2>You can't sign your own load calculation.</h2>
+            <p>Pull the permit, do the install — but the calculation still needs a master electrician's signature before the City will accept it. Book one online by video, usually done in under an hour.</p>
+            <div class="price-line">
+              <span>Online from $120</span>
+              <span>In-home from $250</span>
+              <span>Calgary &amp; area</span>
+            </div>
+          </div>
+          <div>
+            <a class="button dark full" href="/load-calculation-sign-off/">See sign-off options →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TOOLS HUB ============ -->
+    <section class="tools" id="tools">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow dark">The toolbox</p>
+          <h2>Smart planning tools for electricians and service experts.</h2>
+          <p>Real World Electric is building a suite of free, code-aware tools for Alberta's electrical trade. The load calculator is live today — more are on the bench.</p>
+        </div>
+        <div class="tool-grid">
+          <article class="tool-card live">
+            <span class="badge live">Live</span>
+            <div class="tool-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg></div>
+            <h3>Electrical Load Calculator</h3>
+            <p>Full CEC 8-200 residential load calculation with transparent demand factors, service OCP and 75°C conductor sizing — plus automatic City of Calgary and Edmonton form PDFs.</p>
+            <a class="tool-link" href="/calculator">Open the calculator →</a>
+          </article>
+          <article class="tool-card soon">
+            <span class="badge soon">Coming soon</span>
+            <div class="tool-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 17h18v2H3v-2zm2.5-5.5 4 4 8-8L19 9l-9.5 9.5L4 13l1.5-1.5z"/></svg></div>
+            <h3>Voltage Drop Calculator</h3>
+            <p>Size feeders and branch circuits for distance with CEC-based voltage drop checks for copper and aluminum conductors.</p>
+          </article>
+          <article class="tool-card soon">
+            <span class="badge soon">Coming soon</span>
+            <div class="tool-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 10 10h-2a8 8 0 1 1-8-8V2zm2 0v8h8A10 10 0 0 0 14 2z"/></svg></div>
+            <h3>More trade tools</h3>
+            <p>Conductor &amp; breaker sizing, EVEMS load management checks, and more. Have a tool you wish existed? Tell us and we'll build it.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ USE CASES ============ -->
+    <section id="projects">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow dark">When you need it</p>
+          <h2>Know your service capacity before the inspector asks.</h2>
+          <p>These are the projects where Calgary and Edmonton most often require a documented load calculation.</p>
+        </div>
+        <div class="case-grid">
+          <article class="case-card">
+            <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>Secondary suites</h3>
+            <p>Estimate combined demand for the main dwelling and basement suite before Calgary's required load calculation form is due at rough-in.</p>
+          </article>
+          <article class="case-card">
+            <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>Laneway &amp; backyard suites</h3>
+            <p>Check whether the existing service can carry an added dwelling unit, or whether you're looking at a service upgrade.</p>
+          </article>
+          <article class="case-card">
+            <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>Garden suites (Edmonton)</h3>
+            <p>Prepare Edmonton-style garden suite load details for detached suite planning and permits.</p>
+          </article>
+          <article class="case-card">
+            <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/></svg>EV chargers</h3>
+            <p>See how an EVSE at 100% demand affects your calculation and whether load management (EVEMS) could avoid an upgrade.</p>
+          </article>
+          <article class="case-card">
+            <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 8h16v10H4V8zm2-4h12v3H6V4z"/></svg>Hot tubs &amp; spas</h3>
+            <p>Count the full nameplate load and understand the service impact before the tub shows up on a truck.</p>
+          </article>
+          <article class="case-card">
+            <h3><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 2v11h3v9l7-12h-4l4-8H7z"/></svg>Service upgrades</h3>
+            <p>Document existing demand on a 60, 100, or 200 A service and prove whether an upgrade is actually needed.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ GUIDES ============ -->
+    <section class="guides-sec" id="guides">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow dark">Guides</p>
+          <h2>Load calculations, explained by a master electrician.</h2>
+          <p>Plain-language answers to what Calgary homeowners and electricians actually ask — the City forms, the demand factors, and the projects that trigger a calculation.</p>
+        </div>
+        <div class="guide-grid">
+          <a class="guide-card" href="/guides/calgary-secondary-suite-load-calculation/">
+            <h3>Calgary secondary suite load calculation</h3>
+            <p>What the City requires, when the form is due, how Rule 8-200 demand factors work across two dwelling units, and what to do if you come up short.</p>
+            <span class="more">Read the guide →</span>
+          </a>
+          <a class="guide-card" href="/guides/can-100-amp-service-handle-secondary-suite/">
+            <h3>Can a 100 A service handle a secondary suite?</h3>
+            <p>More often than people expect. Which loads actually decide it, and three options worth trying before you pay for a service upgrade.</p>
+            <span class="more">Read the guide →</span>
+          </a>
+          <a class="guide-card" href="/guides/city-of-calgary-load-calculation-form/">
+            <h3>The City of Calgary form, explained</h3>
+            <p>A field-by-field walkthrough — where to get the current version, how each section is filled in, and the mistakes that get a submission bounced.</p>
+            <span class="more">Read the guide →</span>
+          </a>
+          <a class="guide-card" href="/guides/ev-charger-load-calculation-calgary/">
+            <h3>EV chargers &amp; EVEMS in Calgary</h3>
+            <p>Why EV charging counts at 100% with no diversity, and how load management can keep you on your existing service instead of upgrading it.</p>
+            <span class="more">Read the guide →</span>
+          </a>
+        </div>
+        <p style="margin-top:26px"><a class="tool-link" href="/guides/">See all guides →</a></p>
+      </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="how" id="how">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">How it works</p>
+          <h2>Three steps from loads to a permit-ready form.</h2>
+          <p>Transparent math — every demand factor is shown so the result is easy to trust, explain, and defend at inspection.</p>
+        </div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <h3>Enter your project</h3>
+            <p>Pick Calgary or Edmonton, add dwelling areas, suites, and connected loads — range, heat, A/C, EV charger, hot tub, tankless heater.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <h3>Get the full calculation</h3>
+            <p>CEC Rule 8-200 demand factors applied line by line, with calculated amps, service OCP, and 75°C conductor sizing.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <h3>Download the city form</h3>
+            <p>Generate a completed City of Calgary or City of Edmonton load calculation form PDF — no duplicate typing.</p>
+          </div>
+        </div>
+        <ul class="check-cols">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Basic dwelling area load</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Secondary suite and laneway suite demand factors</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>EV charging equipment at 100%</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Range, tankless water heater, hot tub, and additional loads</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Heating and cooling interlock handling</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Service OCP and 75°C conductor sizing</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ CITY FORMS ============ -->
+    <section id="city-forms">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow dark">Automatic city form PDFs</p>
+          <h2>The official load calculation form, filled out for you.</h2>
+          <p>After you run the calculation, the app generates a completed city load calculation form PDF from the same data — so the submitted form always matches the math.</p>
+        </div>
+        <div class="form-grid">
+          <article class="form-card">
+            <span class="city-tag">City of Calgary</span>
+            <h3>Calgary load calculation form</h3>
+            <p>Built for Calgary residential permit planning — single family dwelling, secondary suite, and laneway or backyard suite details straight from the calculator.</p>
+            <ul>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Dwelling and suite address fields</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Permit EP number fields where applicable</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Calculated load values and demand summary</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Service breaker and conductor sizing</li>
+            </ul>
+            <p style="margin-top:16px"><a class="tool-link" href="/guides/city-of-calgary-load-calculation-form/">How the Calgary form works →</a></p>
+          </article>
+          <article class="form-card">
+            <span class="city-tag">City of Edmonton</span>
+            <h3>Edmonton load calculation form</h3>
+            <p>Supports Edmonton residential workflows — primary dwelling, secondary suite, and garden suite load calculation categories.</p>
+            <ul>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Primary dwelling, secondary suite, and garden suite addresses</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Heating, A/C, range, water heater, hot tub, and EV load rows</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Calculated total watts and amps</li>
+              <li><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg>Main breaker and service conductor cells</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ REVIEW CTA ============ -->
+    <section id="review">
+      <div class="wrap">
+        <div class="review">
+          <div>
+            <p class="eyebrow">Need sign-off or help?</p>
+            <h2>Run the free calculator, then get a master electrician's signature.</h2>
+            <p>If the result is close to your service limit, confusing, or headed to the City with a permit — Real World Electric can complete the calculation with you and sign it. Online from $120, in-home in the Calgary area from $250.</p>
+          </div>
+          <div class="review-actions">
+            <a class="button primary full" href="/load-calculation-sign-off/">Book a sign-off</a>
+            <a class="button white full" href="tel:+14038082811">Call 403-808-2811</a>
+            <a class="button outline full" href="https://wa.me/14038082811">Message on WhatsApp</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FAQ ============ -->
+    <section id="faq">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow dark">Common questions</p>
+          <h2>Calgary &amp; Edmonton load calculation FAQ</h2>
+        </div>
+        <div class="faq-list">
+          <details>
+            <summary>When does Calgary or Edmonton require an electrical load calculation?</summary>
+            <p>A load calculation is commonly required when you add a secondary suite, laneway or garden suite, EV charger, hot tub, or other major load, or when you upgrade the electrical service. Calgary asks for its secondary suite load calculation form before the electrical rough-in inspection, and Edmonton has an equivalent load calculation form.</p>
+          </details>
+          <details>
+            <summary>Is the electrical load calculator free?</summary>
+            <p>Yes. The calculator is completely free to use, including the automatic City of Calgary and City of Edmonton form PDFs. If you need help interpreting the result or preparing for permit review, Real World Electric offers a master electrician review.</p>
+          </details>
+          <details>
+            <summary>Can a 100 amp service handle a secondary suite or EV charger?</summary>
+            <p>Sometimes. It depends on the calculated demand under CEC Rule 8-200. Many homes can add a suite or EV charger on a 100 A service once demand factors are applied, while others need load management or a service upgrade. The calculator shows you where you stand in minutes.</p>
+          </details>
+          <details>
+            <summary>Can it fill out the official City of Calgary and City of Edmonton load calculation forms?</summary>
+            <p>Yes. After you run the calculation, the app generates a completed City of Calgary or City of Edmonton load calculation form PDF using your project addresses, dwelling units, calculated watts and amps, breaker size, and conductor size.</p>
+          </details>
+          <details>
+            <summary>Does the calculator replace a permit submission?</summary>
+            <p>No. It helps you estimate and document the electrical load before you apply. Permit requirements and final acceptance always depend on the authority having jurisdiction and your specific project.</p>
+          </details>
+          <details>
+            <summary>What if my calculated load is above my current service size?</summary>
+            <p>You may need load management (such as an EVEMS for EV charging), revised equipment choices, or a service upgrade. Real World Electric can review the calculation and walk you through the options before you spend money on a permit.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">Real World Electric</div>
+          <div class="footer-col">
+            <span>Master electrician · Calgary, Alberta</span>
+            <a href="tel:+14038082811">403-808-2811</a>
+            <a href="mailto:Bart@Realworldelectric.com">Bart@Realworldelectric.com</a>
+            <a href="https://wa.me/14038082811">WhatsApp</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-brand">Service</div>
+          <a href="/load-calculation-sign-off/">Load calculation sign-off</a>
+          <a href="/calculator">Free load calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-brand">Guides</div>
+          <a href="/guides/">All guides</a>
+          <a href="/guides/calgary-secondary-suite-load-calculation/">Calgary secondary suites</a>
+          <a href="/guides/can-100-amp-service-handle-secondary-suite/">100 A &amp; secondary suites</a>
+          <a href="/guides/ev-charger-load-calculation-calgary/">EV chargers &amp; EVEMS</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-brand">Site</div>
+          <a href="#projects">When you need it</a>
+          <a href="#city-forms">City forms</a>
+          <a href="#faq">FAQ</a>
+        </div>
+      </div>
+      <p class="footer-note">© 2026 Real World Electric. The calculator is provided for planning and educational purposes; permit requirements and final acceptance depend on the authority having jurisdiction. Serving Calgary, Edmonton, and communities across Alberta.</p>
+    </div>
+  </footer>
+
+  <div class="mobile-cta">
+    <a href="/calculator">⚡ Start free load calculation</a>
+  </div>
+
+</body>
+</html>

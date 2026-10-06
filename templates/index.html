@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>City of Calgary Digital Load Calculator</title>
+  <meta name="description" content="Free residential electrical load calculator for Calgary and Edmonton (CEC Rule 8-200), with automatic City of Calgary and City of Edmonton load calculation form PDFs.">
+  <link rel="canonical" href="https://realworldelectric.com/calculator">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=20260525-1705">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-K3BF6QGHLL"></script>
@@ -39,6 +42,8 @@
           <p class="subhead">Build a clean service-load snapshot for a dwelling, secondary suite, or laneway suite.</p>
         </div>
         <div class="topbar-actions">
+          <a class="ghost-link" href="/">Home</a>
+          <a class="ghost-link" href="/guides/">Guides</a>
           <a class="ghost-link" href="{{ url_for('api.contact') }}">Contact</a>
           <button type="button" class="icon-button" id="resetButton" aria-label="Reset calculator" title="Reset calculator">Reset</button>
         </div>
