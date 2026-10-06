@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EV Charger Load Calculation Calgary | Do You Need an Upgrade?</title>
+  <meta name="description" content="EV charging counts at 100% with no diversity — the load that most often forces a service upgrade. How Rule 8-200 handles it, and how an EVEMS helps.">
+  <link rel="canonical" href="https://realworldelectric.com/guides/ev-charger-load-calculation-calgary/">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0c1b2a">
+
+  <meta property="og:site_name" content="Real World Electric — Smart Planning Tools">
+  <meta property="og:title" content="EV Charger Load Calculation in Calgary: Do You Need a Service Upgrade?">
+  <meta property="og:description" content="EV charging counts at 100% of rating with no demand reduction. Here's how that lands in a Rule 8-200 calculation — and how an EVEMS often avoids a service upgrade.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://realworldelectric.com/guides/ev-charger-load-calculation-calgary/">
+  <meta property="og:image" content="https://realworldelectric.com/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="en_CA">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="EV Charger Load Calculation in Calgary: Do You Need a Service Upgrade?">
+  <meta name="twitter:description" content="EV charging counts at 100% with no diversity. How that lands in a Rule 8-200 calculation, and when an EVEMS saves you an upgrade.">
+  <meta name="twitter:image" content="https://realworldelectric.com/assets/og-image.png">
+
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/assets/rwe-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/site.css">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://realworldelectric.com/" },
+          { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://realworldelectric.com/guides/" },
+          { "@type": "ListItem", "position": 3, "name": "EV charger load calculation in Calgary", "item": "https://realworldelectric.com/guides/ev-charger-load-calculation-calgary/" }
+        ]
+      },
+      {
+        "@type": "Article",
+        "headline": "EV Charger Load Calculation in Calgary: Do You Need a Service Upgrade?",
+        "description": "EV charging equipment is counted at 100% of its rating with no demand reduction, which makes it decisive in a CEC Rule 8-200 calculation. How to tell whether you need a service upgrade, and where an EVEMS fits.",
+        "inLanguage": "en-CA",
+        "datePublished": "2026-08-12",
+        "dateModified": "2026-08-12",
+        "mainEntityOfPage": "https://realworldelectric.com/guides/ev-charger-load-calculation-calgary/",
+        "image": "https://realworldelectric.com/assets/og-image.png",
+        "author": { "@type": "Organization", "name": "Real World Electric", "url": "https://realworldelectric.com/" },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Real World Electric",
+          "logo": { "@type": "ImageObject", "url": "https://realworldelectric.com/assets/rwe-logo.png" }
+        }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Do I need a service upgrade for an EV charger in Calgary?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Only if the calculated load with the charger included exceeds your service ampacity. Because EV charging equipment is counted at 100 percent of its rating with no demand reduction, it lands in the calculation as a large block at full value, so it is frequently the load that decides the question. Run the Rule 8-200 calculation without the charger first to see how much headroom you actually have, then run it again with the charger added." }
+          },
+          {
+            "@type": "Question",
+            "name": "Can a 100 amp service run a Level 2 charger?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Often yes, especially in a gas-heated house with a gas range and no suite. A gas-heated Calgary bungalow usually has meaningful headroom on 100 A. An all-electric house, or one with a secondary suite, is far more likely to be pushed over by a full-size Level 2 charger. The size of the charger matters too — a smaller unit may fit where a 48 A unit will not." }
+          },
+          {
+            "@type": "Question",
+            "name": "What is an EVEMS and will it let me keep my existing service?",
+            "acceptedAnswer": { "@type": "Answer", "text": "An electric vehicle energy management system monitors what the rest of the house is drawing and backs the charger off, or pauses it, when demand rises. Because the charger can no longer contribute its full rating at the moment of peak demand, its contribution to the calculated load is reduced. In many Calgary homes that is enough to stay within an existing service, and it is usually far cheaper than upgrading." }
+          },
+          {
+            "@type": "Question",
+            "name": "Do I need a permit to install an EV charger in Calgary?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes. EVSE installation requires an electrical permit and an inspection. If the work also involves a service size change, ENMAX is involved alongside the City of Calgary, which adds coordination and lead time beyond the electrical work itself." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-K3BF6QGHLL"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-K3BF6QGHLL');</script>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="Real World Electric home">
+        <img src="/assets/rwe-logo.png" alt="Real World Electric logo" width="38" height="38">
+        <span>Real World <span class="bolt">Electric</span></span>
+      </a>
+      <button class="menu-btn" aria-label="Toggle menu" aria-expanded="false" onclick="const n=document.querySelector('.nav-links');n.classList.toggle('open');this.setAttribute('aria-expanded',n.classList.contains('open'))">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="/#tools">Tools</a>
+        <a href="/guides/">Guides</a>
+        <a href="/load-calculation-sign-off/">Get signed off</a>
+        <a href="/#city-forms">City forms</a>
+        <a href="/#faq">FAQ</a>
+        <a class="nav-cta" href="/calculator">Start free calculator</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="article-hero">
+      <div class="wrap">
+        <p class="crumbs"><a href="/">Home</a> › <a href="/guides/">Guides</a> › EV charger load calculation in Calgary</p>
+        <p class="eyebrow">EV charging &amp; EVEMS</p>
+        <h1>EV Charger Load Calculation in Calgary: Do You Need a Service Upgrade?</h1>
+        <p class="standfirst">EV charging is the one load the Code gives you no break on. It's counted at full value, which is exactly why it so often decides whether your service stays or gets replaced — and why load management is worth understanding before you accept an upgrade quote.</p>
+        <p class="updated">Written by a Calgary master electrician · Last updated 12 August 2026</p>
+      </div>
+    </div>
+
+    <div class="wrap article-layout">
+      <article class="prose">
+        <h2>Why EV charging hits so hard</h2>
+        <p>Most loads in a dwelling calculation get some relief. The Code assumes you aren't running the range, the dryer, the dishwasher and every receptacle circuit simultaneously, so it applies <strong>demand factors</strong> that shrink the raw connected load down to something realistic. That's the whole reason a house with 200 A of nameplate on the panel schedule can calculate out well under 100 A.</p>
+        <p><strong>EV charging equipment does not get that treatment.</strong> It's counted at 100% of its rating, with no diversity and no demand reduction, unless an energy management system is installed. The reasoning is sound: an EV charger genuinely does draw its full rated current, continuously, for hours at a time — and it typically does it in the evening, at the exact moment the rest of the house is at its own peak. There's no realistic argument for discounting it.</p>
+        <p>That single rule is why EV charging is so frequently the load that tips a calculation over. It arrives as one large block at full value on top of a number that was already close to the line.</p>
+
+        <div class="callout">
+          <span class="callout-title">The practical effect</span>
+          <p>A 48 A charger on a 60 A circuit enters the calculation as a full 48 A block — not a reduced share of it. On a 100 A service, that's roughly half your capacity consumed by one appliance before the house is accounted for. Smaller chargers land proportionally smaller, which is why charger selection is a design decision, not just a shopping decision.</p>
+        </div>
+
+        <h2>What Level 2 charging does to the numbers</h2>
+        <p>Level 2 chargers are commonly specified anywhere from around 16 A up to 48 A of continuous output, on branch circuits sized accordingly. The gap between the small end and the large end of that range is enormous in a load calculation — larger than most homeowners expect, because they're comparing charging speed rather than calculated amps.</p>
+        <p>The honest question is not "what's the fastest charger I can buy," it's "how many kilometres do I actually drive in a day, and how many hours is the car parked?" For the overwhelming majority of Calgary commutes, a mid-size charger running overnight replaces a full day's driving with hours to spare. Downsizing the charger is often the cheapest possible way to avoid a service upgrade, and costs you nothing you'd ever notice.</p>
+
+        <h2>How the rest of the calculation is built</h2>
+        <p>To see where the charger lands, you need the rest of the picture. Under <strong>CEC Rule 8-200</strong>, a single dwelling's calculated load starts from living area:</p>
+        <table>
+          <thead>
+            <tr><th>Component</th><th>How it's counted</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>First 90 m² of living area</td><td>5000 W</td></tr>
+            <tr><td>Each additional 90 m², or portion of it</td><td>1000 W</td></tr>
+            <tr><td>Electric space heating and air conditioning</td><td>Per the applicable heating and cooling provisions</td></tr>
+            <tr><td>Electric range</td><td>Added as a major connected load with its own allowance</td></tr>
+            <tr><td>Other major loads over 1500 W (tankless water heater, hot tub, etc.)</td><td>Added, with demand factors applied to the group</td></tr>
+            <tr><td>EV charging equipment</td><td><strong>100% of rating. No demand reduction</strong> unless an EVEMS is used.</td></tr>
+          </tbody>
+        </table>
+        <p>Where there's more than one dwelling unit, demand factors are then applied across the units so the second unit does not count in full. That's the mechanism that lets so many Calgary houses carry a legal suite on 100 A — and it's also the mechanism the EV charger sits outside of.</p>
+        <p>Separately from all of this, the Code sets a floor on service size: <strong>minimum 100 A</strong> where the floor area excluding the basement is 80 m² or more, and 60 A where it's less. If you're on a 60 A service in a house above that threshold, you have a pre-existing problem that the charger project is simply going to expose.</p>
+
+        <div class="inline-cta">
+          <h3>See where your charger actually lands</h3>
+          <p>Run the real Rule 8-200 numbers with the EV load included. Every demand factor is shown line by line, so you can see precisely how much of your service the charger is consuming.</p>
+          <a class="button primary" href="/calculator">Run the free calculator →</a>
+        </div>
+
+        <h2>EVEMS: the alternative to an upgrade</h2>
+        <p>An <strong>electric vehicle energy management system</strong> is a control device that watches what the rest of the house is drawing and reduces or interrupts the charger when total demand climbs toward the service limit. The car charges at full speed when the house is quiet, and backs off when the oven, dryer and heat are all running. In the morning the car is charged either way.</p>
+        <p>Because the charger can no longer contribute its full rating at the moment of peak demand, an EVEMS reduces the charger's contribution to the calculated load. That is the entire point of it, and it is the reason it exists as a recognised approach rather than a workaround.</p>
+        <p>For most Calgary homes that come up short by a modest margin, this is the answer. It is dramatically less disruptive than a service change — no utility coordination, no mast or meter base work, no trenching — and it's typically a fraction of the cost. If someone has quoted you a service upgrade for an EV charger without ever mentioning load management, get a second opinion.</p>
+
+        <h2>The decision framework: run it three times</h2>
+        <p>This is the sequence I use on every EV job, and it takes about fifteen minutes total.</p>
+        <h3>1. Run it without the charger</h3>
+        <p>First, establish your baseline. What does the house calculate at today, as it actually exists? Subtract that from your service ampacity and you have your <strong>headroom</strong> — the real number that determines everything else. If you have 40 A of headroom, a 32 A charger fits outright. If you have 12 A, you already know where this is going.</p>
+        <h3>2. Run it with the charger at full value</h3>
+        <p>Add the charger at 100% of its rating. If the total still sits under your service ampacity, you're done — install it, permit it, move on. No upgrade, no EVEMS, no further discussion.</p>
+        <h3>3. If you're over, run it with an EVEMS</h3>
+        <p>If step two puts you over, this is the step that decides between a few hundred dollars of controls and a full service replacement. If the managed result comes in under your service size, you have your answer. If it still doesn't — which usually means the house was already tight before the car showed up — then the upgrade was probably coming regardless, and the charger just brought the timing forward.</p>
+
+        <div class="callout warn">
+          <span class="callout-title">The stacking problem</span>
+          <p>EV charger plus secondary suite is far and away the most common combination that forces a service upgrade in Calgary. Individually, each one is usually survivable on 100 A. Together, the suite consumes the headroom and the charger — counted at full value with no relief — takes what's left. If you're planning both, calculate both at once rather than sequentially. See <a href="/guides/can-100-amp-service-handle-secondary-suite/">can a 100 A service handle a secondary suite?</a> for the suite side of the arithmetic.</p>
+        </div>
+
+        <h2>If the upgrade is genuinely required</h2>
+        <p>Sometimes the numbers don't cooperate and a larger service is the right call. Plan for it properly. A service size change in Calgary involves <strong>ENMAX</strong> as well as the City, because the utility owns the supply side of the connection. That means scheduling, coordination and lead time that sit outside your electrician's control and outside the permit process itself. Identify it at the planning stage, not the week you take delivery of the car.</p>
+        <p>Regardless of whether the service changes, <strong>EVSE installation requires an electrical permit and an inspection</strong>. The load calculation is part of that submission. Skipping it isn't a shortcut — it's an unpermitted, uninspected, continuous-duty circuit in your garage, and it will surface at resale or at an insurance claim.</p>
+
+        <h2>Frequently asked questions</h2>
+        <details>
+          <summary>Do I need a service upgrade for an EV charger in Calgary?</summary>
+          <p>Only if the calculated load with the charger included exceeds your service ampacity. Because EV charging equipment is counted at 100% of its rating with no demand reduction, it lands as a large block at full value and is frequently the deciding load. Run the calculation without the charger first to see your headroom, then again with it.</p>
+        </details>
+        <details>
+          <summary>Can a 100 amp service run a Level 2 charger?</summary>
+          <p>Often yes, especially in a gas-heated house with a gas range and no suite — those homes usually have meaningful headroom. An all-electric house, or one with a secondary suite, is far more likely to be pushed over by a full-size unit. Charger size matters: a smaller charger may fit comfortably where a 48 A unit will not.</p>
+        </details>
+        <details>
+          <summary>What is an EVEMS and will it let me keep my existing service?</summary>
+          <p>An electric vehicle energy management system monitors household demand and backs the charger off when the rest of the house is drawing. Because the charger can't contribute its full rating at peak, its contribution to the calculated load is reduced. In many Calgary homes that's enough to stay on the existing service, at a small fraction of upgrade cost.</p>
+        </details>
+        <details>
+          <summary>Do I need a permit to install an EV charger in Calgary?</summary>
+          <p>Yes — an electrical permit and an inspection are required for EVSE installation. If a service size change is also involved, ENMAX is in the loop alongside the City, which adds coordination and lead time beyond the electrical work.</p>
+        </details>
+
+        <div class="inline-cta">
+          <h3>Not sure whether you're over the line?</h3>
+          <p>If your result lands within a few amps either way, that's exactly when a master electrician's review is worth having — before you commit to a charger size or accept an upgrade quote.</p>
+          <a class="button primary" href="/load-calculation-sign-off/">Get it signed off →</a>
+        </div>
+
+        <p style="font-size:.88rem;color:var(--muted);margin-top:34px">General information for planning purposes only — not a code ruling or a substitute for a permit submission. Final acceptance rests with the authority having jurisdiction.</p>
+      </article>
+
+      <aside class="sidebar">
+        <div class="side-card dark">
+          <h3>Free load calculator</h3>
+          <p>Handles EV charging loads and EVEMS scenarios, applies CEC 8-200 demand factors, and generates the City of Calgary / Edmonton form PDF.</p>
+          <a class="button primary full" href="/calculator">Open the calculator</a>
+        </div>
+        <div class="side-card">
+          <h3>Related guides</h3>
+          <ul>
+            <li><a href="/guides/calgary-secondary-suite-load-calculation/">Calgary secondary suite load calculation</a></li>
+            <li><a href="/guides/can-100-amp-service-handle-secondary-suite/">Can a 100 A service handle a secondary suite?</a></li>
+            <li><a href="/guides/city-of-calgary-load-calculation-form/">The City of Calgary load calculation form, explained</a></li>
+          </ul>
+        </div>
+        <div class="side-card">
+          <h3>Need it signed off?</h3>
+          <p>Doing the work yourself? A master electrician still has to sign the load calculation. Online by video, or in person in Calgary.</p>
+          <a class="button primary full" href="/load-calculation-sign-off/">See sign-off options</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">Real World Electric</div>
+          <div class="footer-col">
+            <span>Master electrician · Calgary, Alberta</span>
+            <a href="tel:+14038082811">403-808-2811</a>
+            <a href="mailto:Bart@Realworldelectric.com">Bart@Realworldelectric.com</a>
+            <a href="https://wa.me/14038082811">WhatsApp</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <div class="footer-brand">Tools</div>
+          <a href="/calculator">Load Calculator</a>
+          <a href="/#tools">Coming soon</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-brand">Service</div>
+          <a href="/load-calculation-sign-off/">Load calculation sign-off</a>
+          <a href="/calculator">Free calculator</a>
+        </div>
+        <div class="footer-col">
+          <div class="footer-brand">Guides</div>
+          <a href="/guides/">All guides</a>
+          <a href="/guides/calgary-secondary-suite-load-calculation/">Calgary secondary suites</a>
+          <a href="/guides/city-of-calgary-load-calculation-form/">Calgary form explained</a>
+        </div>
+      </div>
+      <p class="footer-note">© 2026 Real World Electric. The calculator is provided for planning and educational purposes; permit requirements and final acceptance depend on the authority having jurisdiction. Serving Calgary, Edmonton, and communities across Alberta.</p>
+    </div>
+  </footer>
+
+  <div class="mobile-cta">
+    <a href="/calculator">⚡ Start free load calculation</a>
+  </div>
+
+</body>
+</html>

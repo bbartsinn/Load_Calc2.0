@@ -2,6 +2,14 @@
 
 A Flask app for residential electrical load calculations for single family dwellings, secondary suites, and laneway/backyard suites.
 
+It also serves the Real World Electric Smart Planning site (formerly the `LoadCalculationLanding` static repo, now in `site/`), so everything lives on `https://realworldelectric.com`:
+
+- `/` landing page, `/guides/`, `/guides/<slug>/`, `/load-calculation-sign-off/` (from `site/`)
+- `/calculator` the load calculator (`templates/index.html`)
+- `/api/*` calculator API, `/static/*` calculator assets
+
+Legacy hostnames (`loadcalculation.*`, `smartplanning.*`, `www.*`) 301 to `https://realworldelectric.com`; see `DEPLOY_CUTOVER.md`.
+
 ## Run Locally
 
 ```powershell
@@ -12,7 +20,8 @@ python app.py
 Open:
 
 ```text
-http://127.0.0.1:8000
+http://127.0.0.1:8000            (landing)
+http://127.0.0.1:8000/calculator (calculator)
 ```
 
 ## Test

@@ -72,8 +72,8 @@ def build_branded_email():
     )
 
     # Action button for expert review – styled responsively
-    review_url = "https://loadcalculation.realworldelectric.com/api/review_form"
-    contact_url = "https://loadcalculation.realworldelectric.com/api/contact"
+    review_url = "https://realworldelectric.com/api/review_form"
+    contact_url = "https://realworldelectric.com/api/contact"
 
     review_button = (
         '<p style="text-align: center; margin: 20px 0;">'
