@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OG Image Generator — Real World Electric</title>
+<style>
+  body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:#f0f3f7;margin:0;padding:32px;text-align:center}
+  h1{font-size:1.3rem;color:#0c1b2a}
+  p{color:#556;max-width:560px;margin:8px auto 24px}
+  canvas{max-width:100%;height:auto;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,.18)}
+  button{margin-top:22px;background:#0c1b2a;color:#fff;border:0;font-size:1rem;font-weight:700;padding:14px 32px;border-radius:10px;cursor:pointer}
+  button:hover{background:#1b3a57}
+</style>
+</head>
+<body>
+<h1>Social preview image (1200 × 630)</h1>
+<p>Click the button to download <strong>og-image.png</strong>, then commit it to the repo at <code>assets/og-image.png</code>. That's the thumbnail people see when you share the site on Facebook, LinkedIn, X, WhatsApp, etc.</p>
+<canvas id="c" width="1200" height="630"></canvas><br>
+<button onclick="download()">⬇ Download og-image.png</button>
+<script>
+const c = document.getElementById('c');
+const x = c.getContext('2d');
+
+// background
+let g = x.createLinearGradient(0,0,1200,630);
+g.addColorStop(0,'#0c1b2a'); g.addColorStop(.6,'#12293f'); g.addColorStop(1,'#1b3a57');
+x.fillStyle = g; x.fillRect(0,0,1200,630);
+
+// amber glow top-right
+let r = x.createRadialGradient(1030,80,0,1030,80,520);
+r.addColorStop(0,'rgba(255,181,36,.22)'); r.addColorStop(1,'rgba(255,181,36,0)');
+x.fillStyle = r; x.fillRect(0,0,1200,630);
+
+// subtle grid
+x.strokeStyle = 'rgba(255,255,255,.05)'; x.lineWidth = 1;
+for(let i=0;i<=1200;i+=44){x.beginPath();x.moveTo(i,0);x.lineTo(i,630);x.stroke();}
+for(let i=0;i<=630;i+=44){x.beginPath();x.moveTo(0,i);x.lineTo(1200,i);x.stroke();}
+
+// lightning bolt badge
+function bolt(bx,by,s,color){
+  x.save(); x.translate(bx,by); x.scale(s,s);
+  x.beginPath();
+  x.moveTo(20,0); x.lineTo(0,28); x.lineTo(13,28); x.lineTo(10,48); x.lineTo(32,18); x.lineTo(19,18); x.lineTo(23,0);
+  x.closePath(); x.fillStyle = color; x.fill(); x.restore();
+}
+x.fillStyle = '#ffb524';
+roundRect(72,64,84,84,20); x.fill();
+bolt(96,82,1.05,'#0c1b2a');
+
+// brand
+x.fillStyle = '#ffffff'; x.font = '700 34px Arial, sans-serif'; x.textBaseline='middle';
+x.fillText('Real World Electric', 180, 106);
+x.fillStyle = 'rgba(255,255,255,.55)'; x.font = '500 22px Arial, sans-serif';
+x.fillText('realworldelectric.com', 180, 140);
+
+// headline
+x.fillStyle = '#ffffff'; x.font = '800 64px Arial, sans-serif'; x.textBaseline='alphabetic';
+x.fillText('Free Electrical Load', 72, 292);
+x.fillText('Calculator', 72, 366);
+x.fillStyle = '#ffb524';
+x.fillText('Calgary & Edmonton', 72, 440);
+
+// subline
+x.fillStyle = 'rgba(255,255,255,.75)'; x.font = '500 27px Arial, sans-serif';
+x.fillText('CEC 8-200 demand math · Auto-fills official city permit forms', 72, 498);
+
+// chips
+const chips = ['FREE', 'Built by a master electrician'];
+let cx0 = 72;
+x.font = '700 21px Arial, sans-serif';
+chips.forEach(t=>{
+  const w = x.measureText(t).width + 44;
+  x.fillStyle = 'rgba(255,255,255,.1)';
+  roundRect(cx0, 532, w, 46, 23); x.fill();
+  x.strokeStyle = 'rgba(255,255,255,.25)'; x.lineWidth=1.5; roundRect(cx0, 532, w, 46, 23); x.stroke();
+  x.fillStyle = t==='FREE' ? '#ffb524' : '#e6edf4';
+  x.textBaseline='middle'; x.fillText(t, cx0+22, 556); x.textBaseline='alphabetic';
+  cx0 += w + 14;
+});
+
+// result card on the right
+x.save();
+x.translate(818,190); x.rotate(0.03);
+x.shadowColor='rgba(0,0,0,.4)'; x.shadowBlur=40; x.shadowOffsetY=16;
+x.fillStyle='#ffffff'; roundRect(0,0,320,330,22); x.fill();
+x.shadowColor='transparent';
+x.fillStyle='#8896a5'; x.font='700 16px Arial, sans-serif';
+x.fillText('EXAMPLE OUTPUT', 28, 44);
+x.fillStyle='#0c1b2a'; x.font='800 72px Arial, sans-serif';
+x.fillText('60.6', 28, 118);
+x.fillStyle='#f59e0b'; x.font='800 38px Arial, sans-serif';
+x.fillText('A', 190, 118);
+x.fillStyle='#8896a5'; x.font='500 18px Arial, sans-serif';
+x.fillText('calculated service demand', 28, 150);
+const rows=[['Service OCP','100 A'],['Conductor','#3 Cu'],['City form PDF','✓ filled']];
+let ry=196;
+rows.forEach(rw=>{
+  x.strokeStyle='#e6ebf1'; x.lineWidth=1;
+  x.beginPath(); x.moveTo(28,ry-24); x.lineTo(292,ry-24); x.stroke();
+  x.fillStyle='#8896a5'; x.font='500 18px Arial, sans-serif'; x.fillText(rw[0], 28, ry);
+  x.fillStyle='#0c1b2a'; x.font='700 18px Arial, sans-serif';
+  x.fillText(rw[1], 292 - x.measureText(rw[1]).width, ry);
+  ry+=48;
+});
+x.restore();
+
+function roundRect(rx,ryy,w,h,rad){
+  x.beginPath();
+  x.moveTo(rx+rad,ryy);
+  x.arcTo(rx+w,ryy,rx+w,ryy+h,rad);
+  x.arcTo(rx+w,ryy+h,rx,ryy+h,rad);
+  x.arcTo(rx,ryy+h,rx,ryy,rad);
+  x.arcTo(rx,ryy,rx+w,ryy,rad);
+  x.closePath();
+}
+
+function download(){
+  const a = document.createElement('a');
+  a.download = 'og-image.png';
+  a.href = c.toDataURL('image/png');
+  a.click();
+}
+</script>
+</body>
+</html>
