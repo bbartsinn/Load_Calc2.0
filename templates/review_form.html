@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-CA">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Request Expert Review</title>
+  <title>Request a Residential Electrical Load Review | Real World Electric</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-K3BF6QGHLL"></script>
@@ -12,14 +12,14 @@
 <body>
   <main class="single-page-shell">
     <section class="page-card">
-      <a class="back-link" href="/">Back to calculator</a>
+      <a class="back-link" href="/">Residential electrical load calculator</a>
       <p class="eyebrow">Real World Electric</p>
-      <h1>Expert Review</h1>
-      <p class="subhead">Send the calculation and project details for a master electrician review.</p>
+      <h1>Request an electrical load review</h1>
+      <p class="subhead">Describe the equipment you plan to add. Real World Electric will confirm what needs checking, the fee and the next step.</p>
 
       <div class="review-summary" id="reviewSummary">
-        <strong>No calculation attached yet.</strong>
-        <span>Run the calculator first if you want the load summary included automatically.</span>
+        <strong>Have a project but no estimate yet?</strong>
+        <span>You can send this request now. If you use the residential electrical load calculator first, a summary can accompany your request.</span>
       </div>
 
       <form class="stacked-form" action="{{ url_for('api.submit_review_form') }}" method="post">
@@ -51,9 +51,9 @@
         </label>
 
         <label>
-          <span>Reason</span>
+          <span>What are you planning?</span>
           <select id="reason" name="reason" required>
-            <option value="">Select reason</option>
+            <option value="">Select your project type</option>
             <option value="New Secondary Suite">New secondary suite</option>
             <option value="New Laneway House">New laneway house</option>
             <option value="New Car Charger">New car charger</option>
@@ -63,13 +63,13 @@
         </label>
 
         <label>
-          <span>Notes</span>
-          <textarea id="comments" name="comments" rows="4" placeholder="Anything the reviewer should know?"></textarea>
+          <span>Project details (optional)</span>
+          <textarea id="comments" name="comments" rows="4" placeholder="For example, your charger model or the major appliances you plan to add."></textarea>
         </label>
 
         <input type="hidden" id="calcInput" name="calcInput" value="">
         <input type="hidden" id="calcResult" name="calcResult" value="">
-        <button type="submit" class="primary-action">Send for review</button>
+        <button type="submit" class="primary-action">Send load review request</button>
       </form>
     </section>
   </main>

@@ -292,7 +292,7 @@ def send_calculation_email():
             data={
                 "from": from_address,
                 "to": [user_email],
-                "subject": "Your Real World Electric Load Calculation",
+                "subject": "Your residential electrical load estimate from Real World Electric",
                 "html": html_content
             },
             files=[("attachment", ("LoadCalculation.pdf", pdf_bytes, "application/pdf"))],
@@ -362,7 +362,10 @@ def submit_contact():
         logger.exception("Contact email failed")
         return "Error sending email.", 500
 
-    # Return "success" so the AJAX script can detect it
+    if request.accept_mimetypes.best == "text/html":
+        return render_template("contact.html", receipt_title="Electrical project enquiry received",
+                               receipt_message="Real World Electric received your message and will reply to the email address you provided.")
+    # Keep the original response for clients submitting via AJAX.
     return "success"
 
 # -------------------------------------------------------
@@ -436,9 +439,9 @@ def submit_review_form():
         return "Failed to send review request.", 500
 
     confirmation_content = f"""
-    <h2>Thank You!</h2>
-    <p>Your load calculation review request has been received.</p>
-    <p>A Master Electrician will be in touch within 24 hours.</p>
+    <h2>Real World Electric received your electrical load review request</h2>
+    <p>We will review the project details you supplied.</p>
+    <p>A master electrician will contact you about the scope, fee and next steps.</p>
     <p>Thank you for choosing Real World Electric.</p>
     """
     
@@ -452,7 +455,7 @@ def submit_review_form():
             data={
                 "from": from_address,
                 "to": [user_email],
-                "subject": "Your Load Calculation Review Request Has Been Received",
+                "subject": "Real World Electric received your electrical load review request",
                 "html": confirmation_content
             },
             files=files,
@@ -463,4 +466,7 @@ def submit_review_form():
         logger.exception("Review confirmation email failed")
         return "Failed to send confirmation email.", 500
 
-    return "Thank you! Your review request has been sent. We will contact you shortly."
+    if request.accept_mimetypes.best == "text/html":
+        return render_template("contact.html", receipt_title="Electrical load review request received",
+                               receipt_message="Check your email for confirmation. Real World Electric will contact you about the scope, fee and next steps.")
+    return "Real World Electric received your electrical load review request. We will contact you about the next steps."

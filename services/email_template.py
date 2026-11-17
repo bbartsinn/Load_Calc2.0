@@ -65,9 +65,9 @@ def build_branded_email():
     contact_info = (
         '<p style="font-size: 12px; color: #555;">'
         'Contact Us: Phone: 403-808-2811 | Whatsapp: 403-808-2811 | '
-        'Telegram: <a href="https://t.me/rwemec" style="color:#000;">@t.me/rwemec</a> | '
+        'Telegram: <a href="https://t.me/rwemec" style="color:#000;">@rwemec</a> | '
         '<a href="https://facebook.com/RWEINC" style="color:#000;">Facebook</a> | '
-        'Email: <a href="mailto:Bart@Realworldelectric.com" style="color:#000;">Bart@Realworldelectric.com</a>'
+        'Email: <a href="mailto:info@realworldelectric.com" style="color:#000;">info@realworldelectric.com</a>'
         '</p>'
     )
 
@@ -81,7 +81,7 @@ def build_branded_email():
         'style="display:block; max-width:300px; width:90%; margin:0 auto; '
         'background:' + text_color + '; color:' + brand_color + '; padding: 12px 0; '
         'text-align:center; text-decoration:none; border-radius:5px; font-weight:bold; font-size:16px;">'
-        'Get Expert Review'
+        'Request an electrical load review'
         '</a>'
         '</p>'
     )
@@ -93,7 +93,7 @@ def build_branded_email():
         'style="display:block; max-width:300px; width:90%; margin:0 auto; '
         'background:' + text_color + '; color:' + brand_color + '; padding: 12px 0; '
         'text-align:center; text-decoration:none; border-radius:5px; font-weight:bold; font-size:16px;">'
-        'Contact Us'
+        'Contact Real World Electric'
         '</a>'
         '</p>'
     )
@@ -102,19 +102,19 @@ def build_branded_email():
     <html>
       <head>
         <meta charset="UTF-8">
-        <title>City of Calgary Digital Load Calculator</title>
+        <title>Real World Electric Residential Electrical Load Calculator</title>
       </head>
       <body style="margin: 0; padding: 20px; font-family: Arial, sans-serif; background: {background_color}; color: {text_color};">
         <div style="background: {brand_color}; padding: 20px; text-align: center;">
-          <h1 style="margin: 0;">Real World Electric Digital Tools</h1>
+          <h1 style="margin: 0;">Real World Electric</h1>
         </div>
         <div style="padding: 20px;">
-          <h2>Thank You for Using the City of Calgary Digital Load Calculator</h2>
-          <p>We appreciate you choosing Real World Electric for your project.</p>
-          <p>Your detailed load calculation is attached as a PDF for your records.</p>
-          <p>If you would like your load calculation reviewed and signed by a master electrician, please click the button below.</p>
+          <h2>Your residential electrical load estimate</h2>
+          <p>Your estimate is based on the floor area and equipment ratings entered in the residential electrical load calculator.</p>
+          <p>The attached PDF shows the calculated electrical demand in watts and amps.</p>
+          <p>If your project needs a signed calculation, request a review. Real World Electric will confirm the scope and fee.</p>
           {review_button}
-          <p>If you need any assistance, please use the contact button below.</p>
+          <p>For installation or planning enquiries, contact Real World Electric.</p>
           {contact_button}
           <p style="margin-top: 30px; font-size: 14px;">
             Thank you,<br>
@@ -174,7 +174,7 @@ def build_pdf_content(calculation_data):
     html = """<html>
       <head>
         <meta charset="UTF-8">
-        <title>City of Calgary Digital Load Calculator</title>
+        <title>Real World Electric Residential Electrical Load Calculator</title>
         <style>
           body {
             font-family: Arial, sans-serif;
@@ -227,7 +227,7 @@ def build_pdf_content(calculation_data):
       </head>
       <body>
         <header>
-          <h1>City of Calgary Digital Load Calculator</h1>
+          <h1>Real World Electric Residential Electrical Load Calculator</h1>
         </header>
         <h2>Input Data</h2>
     """
@@ -289,7 +289,7 @@ def build_pdf_content(calculation_data):
           Real World Electric | Phone: 403-808-2811 | Whatsapp: 403-808-2811 | 
           Telegram: <a href="https://t.me/rwemec" style="color:#555;">@rwemec</a> | 
           <a href="https://facebook.com/RWEINC" style="color:#555;">Facebook</a> | 
-          Email: <a href="mailto:Bart@Realworldelectric.com" style="color:#555;">Bart@Realworldelectric.com</a>
+          Email: <a href="mailto:info@realworldelectric.com" style="color:#555;">info@realworldelectric.com</a>
         </footer>
     """
 

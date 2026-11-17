@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-CA">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Real World Electric</title>
+  <title>{{ receipt_title or 'Contact Real World Electric' }}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-K3BF6QGHLL"></script>
@@ -12,10 +12,14 @@
 <body>
   <main class="single-page-shell">
     <section class="page-card">
-      <a class="back-link" href="/">Back to calculator</a>
+      <a class="back-link" href="/">Residential electrical load calculator</a>
       <p class="eyebrow">Real World Electric</p>
-      <h1>Contact</h1>
-      <p class="subhead">Send the project details and we will follow up.</p>
+      {% if receipt_title %}
+      <h1>{{ receipt_title }}</h1>
+      <p class="subhead">{{ receipt_message }}</p>
+      {% else %}
+      <h1>Contact Real World Electric</h1>
+      <p class="subhead">Ask about electrical work, a load calculation or a planning consultation in Calgary. Include the project location and what you want to add or change.</p>
 
       <form class="stacked-form" action="{{ url_for('api.submit_contact') }}" method="post">
         <label>
@@ -30,13 +34,14 @@
           <span>Message</span>
           <textarea name="message" rows="5" placeholder="What are you trying to calculate or install?" required></textarea>
         </label>
-        <button type="submit" class="primary-action">Send message</button>
+        <button type="submit" class="primary-action">Send electrical project enquiry</button>
       </form>
+      {% endif %}
 
       <div class="contact-actions">
         <a href="tel:+14038082811">Call 403-808-2811</a>
-        <a href="mailto:Bart@Realworldelectric.com">Email Bart</a>
-        <a href="https://t.me/rwemec">Telegram @rwemec</a>
+        <a href="mailto:info@realworldelectric.com">Email Real World Electric</a>
+        <a href="https://t.me/rwemec">Message Real World Electric on Telegram</a>
       </div>
     </section>
   </main>

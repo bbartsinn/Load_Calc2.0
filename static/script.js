@@ -11,7 +11,7 @@ const LOAD_FIELDS = [
   ["tankless_watts", "Tankless water heater", "Electric tankless domestic water heater load"],
   ["steamer_watts", "Steamer", "Steam shower or steamer load"],
   ["pool_hot_tub_watts", "Pool / hot tub / spa", "Whole equipment nameplate watts"],
-  ["ev_charging_watts", "EV charging", "EVSE load in watts"],
+  ["ev_charging_watts", "EV charger", "Charger input rating in watts"],
 ];
 
 const BELOW_GROUND_AREA_FACTOR = 0.75;
@@ -49,11 +49,11 @@ function parseNumber(input) {
 function unitCard(unit) {
   const loadRows = LOAD_FIELDS.map(([key, label, hint]) => `
     <div class="load-row" data-load-key="${key}">
-      <label>
+      <label for="${key}_${unit}">
         <span>${label}</span>
         <small>${hint}</small>
       </label>
-      <input type="number" min="0" step="1" inputmode="decimal" name="${key}_${unit}" placeholder="0">
+      <input type="number" min="0" step="1" inputmode="decimal" id="${key}_${unit}" name="${key}_${unit}" placeholder="0">
     </div>
   `).join("");
 
@@ -89,7 +89,7 @@ function unitCard(unit) {
             <h3>Additional loads over 1500 W</h3>
             <p>Dryers, tank-style water heaters, and other fixed loads. Leave out heating, cooling, EV, tankless, and pool/hot tub/spa loads already entered above.</p>
           </div>
-          <button type="button" class="small-button add-load">Add</button>
+          <button type="button" class="small-button add-load">Add electrical load</button>
         </div>
         <div class="additional-list"></div>
       </div>
@@ -101,8 +101,8 @@ function additionalLoadRow() {
   const row = document.createElement("div");
   row.className = "additional-row";
   row.innerHTML = `
-    <input type="text" class="additional-description" placeholder="Description">
-    <input type="number" class="additional-watts" min="0" step="1" inputmode="decimal" placeholder="Watts">
+    <input type="text" class="additional-description" aria-label="Additional equipment name" placeholder="Equipment name">
+    <input type="number" class="additional-watts" aria-label="Additional equipment rating in watts" min="0" step="1" inputmode="decimal" placeholder="Watts">
     <button type="button" class="icon-button remove-load" aria-label="Remove additional load" title="Remove">Remove</button>
   `;
   row.querySelector(".remove-load").addEventListener("click", () => row.remove());
@@ -252,7 +252,7 @@ function renderResults(data) {
       </div>
       <dl>
         <div><dt>Load</dt><dd>${formatWatts(unit.calculated_load)}</dd></div>
-        <div><dt>OCP</dt><dd>${unit.unit_ocp || "N/A"}</dd></div>
+        <div><dt>Overcurrent protection</dt><dd>${unit.unit_ocp || "N/A"}</dd></div>
         <div><dt>Conductor</dt><dd>${unit.unit_conductor || "N/A"}</dd></div>
       </dl>
       ${renderAreaSummary(unit.area_summary)}
@@ -266,6 +266,7 @@ function renderResults(data) {
   }
 
   $("#reviewButton").disabled = false;
+  $("#emailButton").disabled = false;
   $("#cityFormButton").disabled = false;
 }
 
@@ -322,7 +323,7 @@ function renderBreakdownTable(rows) {
 
 async function calculateLoad(event) {
   event.preventDefault();
-  const button = $(".primary-action");
+  const button = $("#loadCalcForm button[type=submit]");
   button.disabled = true;
   button.textContent = "Calculating...";
 
@@ -350,12 +351,12 @@ async function calculateLoad(event) {
     $("#resultError").innerHTML = `<h2>Calculation failed</h2><p>${error.message}</p>`;
   } finally {
     button.disabled = false;
-    button.textContent = "Calculate";
+    button.textContent = "Estimate electrical load";
   }
 }
 
 async function sendCalculationEmail() {
-  const userEmail = window.prompt("Email address for the calculation PDF:");
+  const userEmail = window.prompt("Send the electrical load report (PDF) to which email address?");
   if (!userEmail) return;
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(userEmail)) {
     window.alert("Enter a valid email address.");
@@ -386,7 +387,7 @@ async function sendCalculationEmail() {
     window.alert(error.message);
   } finally {
     button.disabled = false;
-    button.textContent = "Email PDF";
+    button.textContent = "Email load report (PDF)";
   }
 }
 
